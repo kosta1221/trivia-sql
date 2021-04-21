@@ -29,11 +29,11 @@ module.exports = {
       local_purchasing_power_index: {
         type: Sequelize.FLOAT
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
