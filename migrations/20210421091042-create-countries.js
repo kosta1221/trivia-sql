@@ -5,10 +5,10 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER
       },
       name: {
+        primaryKey: true,
         type: Sequelize.STRING
       },
       region: {

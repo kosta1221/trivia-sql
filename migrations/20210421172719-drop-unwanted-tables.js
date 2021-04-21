@@ -12,10 +12,10 @@ module.exports = {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
-				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
 			country: {
+				primaryKey: true,
 				type: Sequelize.STRING,
 			},
 			age_0_to_14_years: {
@@ -41,10 +41,10 @@ module.exports = {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
-				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
 			country: {
+				primaryKey: true,
 				type: Sequelize.STRING,
 			},
 			health_care_index: {
@@ -67,10 +67,10 @@ module.exports = {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
-				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
 			country: {
+				primaryKey: true,
 				type: Sequelize.STRING,
 			},
 			price_to_income_ratio: {

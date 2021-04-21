@@ -5,13 +5,13 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER
       },
-      rank: {
+      country_or_dependent_territory: {
+        primaryKey: true,
         type: Sequelize.STRING
       },
-      country_or_dependent_territory: {
+      rank: {
         type: Sequelize.STRING
       },
       area_km2: {

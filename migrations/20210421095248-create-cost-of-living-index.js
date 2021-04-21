@@ -5,10 +5,10 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER
       },
       country: {
+        primaryKey: true,
         type: Sequelize.STRING
       },
       cost_of_living_index: {
