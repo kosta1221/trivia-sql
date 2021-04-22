@@ -8,13 +8,13 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			this.belongsTo(models.Country, { targetKey:"name", foreignKey: "country"  });
+			this.belongsTo(models.Country, { targetKey: "name", foreignKey: "country" });
 		}
 	}
 	QualityOfLifeIndex.init(
 		{
 			country: DataTypes.STRING,
-			quality_of_life_Index: DataTypes.INTEGER,
+			quality_of_life_index: DataTypes.INTEGER,
 			pollution_index: DataTypes.FLOAT,
 		},
 		{
