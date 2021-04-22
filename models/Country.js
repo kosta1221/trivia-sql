@@ -12,28 +12,20 @@ module.exports = (sequelize, DataTypes) => {
 			this.hasOne(models.CrimeIndex, { foreignKey: "country" });
 			this.hasOne(models.CostOfLivingIndex, { foreignKey: "country" });
 			this.hasOne(models.QualityOfLifeIndex, { foreignKey: "country" });
-			this.hasOne(models.PopulationDensity, { foreignKey: "country_or_dependent_territory" });
+			this.hasOne(models.PopulationDensity, {
+				sourceKey: "name",
+				foreignKey: "country_or_dependent_territory",
+			});
 		}
 	}
 	Country.init(
 		{
 			name: DataTypes.STRING,
-			region: DataTypes.STRING,
-			coastline: DataTypes.FLOAT,
-			net_migration: DataTypes.FLOAT,
-			infant_mortality_per_1000: DataTypes.FLOAT,
-			gdp: DataTypes.INTEGER,
 			literacy: DataTypes.FLOAT,
 			phones: DataTypes.FLOAT,
 			arable: DataTypes.FLOAT,
-			crops: DataTypes.FLOAT,
-			other: DataTypes.FLOAT,
-			climate: DataTypes.FLOAT,
 			birthrate: DataTypes.FLOAT,
 			deathrate: DataTypes.FLOAT,
-			agriculture: DataTypes.FLOAT,
-			industry: DataTypes.FLOAT,
-			service: DataTypes.FLOAT,
 		},
 		{
 			sequelize,
