@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			this.belongsTo(models.Country, { foreignKey: "name" });
+			this.belongsTo(models.Country, { targetKey:"name", foreignKey: "country"  });
 		}
 	}
 	CostOfLivingIndex.init(
