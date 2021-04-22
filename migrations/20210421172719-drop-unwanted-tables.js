@@ -4,14 +4,13 @@ module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		queryInterface.dropTable("countries_age_structures");
 		queryInterface.dropTable("health_care_indices");
-		queryInterface.dropTable("Properties_Price_Indices");
+		queryInterface.dropTable("properties_price_indices");
 	},
 
 	down: async (queryInterface, Sequelize) => {
 		queryInterface.createTable("countries_age_structures", {
 			id: {
 				allowNull: false,
-				autoIncrement: true,
 				type: Sequelize.INTEGER,
 			},
 			country: {
@@ -40,7 +39,6 @@ module.exports = {
 		queryInterface.createTable("health_care_indices", {
 			id: {
 				allowNull: false,
-				autoIncrement: true,
 				type: Sequelize.INTEGER,
 			},
 			country: {
@@ -63,10 +61,9 @@ module.exports = {
 			},
 		});
 
-		queryInterface.createTable("Properties_Price_Indices", {
+		queryInterface.createTable("properties_price_indices", {
 			id: {
 				allowNull: false,
-				autoIncrement: true,
 				type: Sequelize.INTEGER,
 			},
 			country: {
