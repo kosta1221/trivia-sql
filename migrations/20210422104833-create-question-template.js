@@ -16,6 +16,12 @@ module.exports = {
 			is_first: {
 				type: Sequelize.BOOLEAN,
 			},
+			table_name: {
+				type: Sequelize.STRING,
+			},
+			column_name: {
+				type: Sequelize.STRING,
+			},
 			created_at: {
 				allowNull: false,
 				type: Sequelize.DATE,

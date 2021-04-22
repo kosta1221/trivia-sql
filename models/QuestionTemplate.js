@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 			template: DataTypes.STRING,
 			type: DataTypes.INTEGER,
 			is_first: DataTypes.BOOLEAN,
+			table_name: DataTypes.STRING,
+			column_name: DataTypes.STRING,
 		},
 		{
 			sequelize,
