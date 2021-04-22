@@ -37,6 +37,10 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.FLOAT,
 			},
+			template: {
+				allowNull: false,
+				type: Sequelize.STRING,
+			},
 			number_of_ratings: {
 				allowNull: false,
 				type: Sequelize.INTEGER,

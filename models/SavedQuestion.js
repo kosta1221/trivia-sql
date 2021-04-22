@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.QuestionTemplate, { foreignKey: "type" });
+      this.belongsTo(models.QuestionTemplate, { foreignKey: "template" });
     }
   };
   SavedQuestion.init({
@@ -22,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     option4: DataTypes.STRING,
     answer: DataTypes.INTEGER,
     rating: DataTypes.FLOAT,
-    number_of_ratings: DataTypes.INTEGER
+    number_of_ratings: DataTypes.INTEGER,
+    template: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'SavedQuestion',
