@@ -4,7 +4,6 @@ module.exports = {
 		await queryInterface.createTable("capitals", {
 			id: {
 				allowNull: false,
-				autoIncrement: true,
 				type: Sequelize.INTEGER,
 			},
 			country: {

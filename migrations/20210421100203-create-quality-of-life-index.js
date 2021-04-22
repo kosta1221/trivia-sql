@@ -4,7 +4,6 @@ module.exports = {
 		await queryInterface.createTable("quality_of_life_indices", {
 			id: {
 				allowNull: false,
-				autoIncrement: true,
 				type: Sequelize.INTEGER,
 			},
 			country: {

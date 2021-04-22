@@ -4,7 +4,6 @@ module.exports = {
     await queryInterface.createTable('Properties_Price_Indices', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         type: Sequelize.INTEGER
       },
       country: {
