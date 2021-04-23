@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import { URL } from "../utils";
+
+import useAxios from "axios-hooks";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,26 +37,39 @@ const useStyles = makeStyles((theme) => ({
 function Game() {
 	const classes = useStyles();
 
+	const [{ data, loading, error }, refetch] = useAxios({
+		method: "GET",
+		url: `${URL}/generate`,
+		headers: { "Content-Type": "application/json" },
+	});
+
+	if (loading) {
+		return <h1>LOADING...</h1>;
+	}
+	if (error) {
+		return <h1>ERROR!</h1>;
+	}
+
 	return (
 		<div className={classes.root}>
 			<Paper className={classes.question} elevation={3}>
-				Question goes here
+				{data.questionStr}
 				<div className={classes.questionOptions}>
 					<div className={classes.questionOptionsInner}>
 						<Button className={classes.optionButton} variant="outlined" color="primary">
-							Option1
+							{data.option1}
 						</Button>
 						<Button className={classes.optionButton} variant="outlined" color="primary">
-							Option2
+							{data.option2}
 						</Button>
 					</div>
 
 					<div className={classes.questionOptionsInner}>
 						<Button className={classes.optionButton} variant="outlined" color="primary">
-							Option3
+							{data.option3}
 						</Button>
 						<Button className={classes.optionButton} variant="outlined" color="primary">
-							Option4
+							{data.option4}
 						</Button>
 					</div>
 				</div>
