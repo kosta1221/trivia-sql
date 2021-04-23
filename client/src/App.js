@@ -1,22 +1,14 @@
 import "./styles/App.css";
-import { BrowserRouter } from "react-router-dom";
-import Button from "@material-ui/core/Button";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import Game from "./components/Game";
+import HomePage from "./components/HomePage";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		height: `100vh`,
 		display: `flex`,
 		justifyContent: `center`,
-	},
-	buttonsFlex: {
-		display: `flex`,
-		justifyContent: `center`,
-		flexDirection: "column",
-		width: "40vmax",
-	},
-	mainButton: {
-		margin: "1vh",
 	},
 }));
 
@@ -26,14 +18,10 @@ function App() {
 	return (
 		<div className={`App ${classes.root}`}>
 			<BrowserRouter>
-				<div className={classes.buttonsFlex}>
-					<Button className={classes.mainButton} variant="contained" color="primary">
-						Start Game
-					</Button>
-					<Button className={classes.mainButton} variant="contained" color="primary">
-						Leaderboards
-					</Button>
-				</div>
+				<Switch>
+					<Route exact path="/" render={(props) => <HomePage {...props} />} />
+					<Route exact path="/game" render={(props) => <Game {...props}></Game>} />
+				</Switch>
 			</BrowserRouter>
 		</div>
 	);
