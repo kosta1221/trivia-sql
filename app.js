@@ -29,4 +29,13 @@ const {
 	QualityOfLifeIndex,
 } = require("./models");
 
+const errorHandler = (error, req, res, next) => {
+	console.error(error);
+	console.error(error.message);
+
+	next(error);
+};
+
+app.use(errorHandler);
+
 module.exports = app;
