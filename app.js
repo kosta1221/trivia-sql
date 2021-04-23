@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const router = require("./routes");
 
 morgan.token("reqbody", (req) => {
 	const newObject = {};
@@ -17,6 +18,7 @@ morgan.token("reqbody", (req) => {
 app.use(express.json());
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :reqbody"));
 app.use(express.static("./client/build"));
+app.use("/api", router);
 
 const {
 	Country,
