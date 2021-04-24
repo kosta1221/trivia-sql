@@ -6,6 +6,7 @@ import { URL } from "../utils";
 
 import useAxios from "axios-hooks";
 import Question from "./Question";
+import Rating from "./Rating";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -25,7 +26,7 @@ function Game() {
 		headers: { "Content-Type": "application/json" },
 	});
 
-	const [currentlyDisplayed, setCurrentlyDisplayed] = useState("question");
+	const [currentlyDisplayed, setCurrentlyDisplayed] = useState("rating");
 
 	if (loading) {
 		return <h1>LOADING...</h1>;
@@ -38,7 +39,7 @@ function Game() {
 		<div className={classes.root}>
 			<Paper elevation={3}>
 				{currentlyDisplayed === "question" && <Question data={data} />}
-				
+				{currentlyDisplayed === "rating" && <Rating />}
 			</Paper>
 		</div>
 	);
