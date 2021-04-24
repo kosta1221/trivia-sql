@@ -36,6 +36,6 @@ sequelize.sync();
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-sequelize.options.logging = true;
+sequelize.options.logging = console.log;
 
 module.exports = db;

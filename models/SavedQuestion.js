@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     option2: DataTypes.STRING,
     option3: DataTypes.STRING,
     option4: DataTypes.STRING,
-    answer: DataTypes.INTEGER,
+    answer: DataTypes.STRING,
     rating: DataTypes.FLOAT,
     number_of_ratings: DataTypes.INTEGER,
     template: DataTypes.STRING
