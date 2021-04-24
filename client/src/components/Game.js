@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -7,6 +7,7 @@ import { URL } from "../utils";
 import useAxios from "axios-hooks";
 import Question from "./Question";
 import Rating from "./Rating";
+import GameOver from "./GameOver";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -27,6 +28,13 @@ function Game() {
 	});
 
 	const [currentlyDisplayed, setCurrentlyDisplayed] = useState("question");
+	const [lives, setLives] = useState(3);
+
+	useEffect(() => {
+		if (lives === 0) {
+			setCurrentlyDisplayed("game_over");
+		}
+	}, [lives]);
 
 	if (loading) {
 		return <h1>LOADING...</h1>;
@@ -39,10 +47,22 @@ function Game() {
 		<div className={classes.root}>
 			<Paper elevation={3}>
 				{currentlyDisplayed === "question" && (
-					<Question data={data} setCurrentlyDisplayed={setCurrentlyDisplayed} />
+					<Question
+						data={data}
+						setCurrentlyDisplayed={setCurrentlyDisplayed}
+						lives={lives}
+						setLives={setLives}
+					/>
 				)}
 				{currentlyDisplayed === "rating" && (
 					<Rating question={data} setCurrentlyDisplayed={setCurrentlyDisplayed} refetch={refetch} />
+				)}
+				{currentlyDisplayed === "game_over" && (
+					<GameOver
+						setCurrentlyDisplayed={setCurrentlyDisplayed}
+						refetch={refetch}
+						setLives={setLives}
+					/>
 				)}
 			</Paper>
 		</div>

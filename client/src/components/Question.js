@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Question({ data, setCurrentlyDisplayed }) {
+function Question({ data, setCurrentlyDisplayed, lives, setLives }) {
 	const classes = useStyles();
 
 	const handleAnswerClick = (event) => {
@@ -35,6 +35,9 @@ function Question({ data, setCurrentlyDisplayed }) {
 		console.log(event.target.innerText);
 		console.log(isUserAnswerCorrect);
 		setCurrentlyDisplayed("rating");
+		if (!isUserAnswerCorrect) {
+			setLives(lives - 1);
+		}
 	};
 
 	return (
