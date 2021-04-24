@@ -82,6 +82,13 @@ generate.get("/", async (req, res, next) => {
 			break;
 		case 3:
 			questionType = 3;
+			questionObject = await handleType3Template(
+				relevantModel,
+				relevantColumn,
+				isFirst,
+				relevantStat,
+				template
+			);
 			break;
 	}
 
@@ -90,13 +97,64 @@ generate.get("/", async (req, res, next) => {
 	res.json(questionObject);
 });
 
-const handleType2Template = async (
+const handleType3Template = async (
 	relevantModel,
 	relevantColumn,
 	isFirst,
 	relevantStat,
 	template
 ) => {
+	let relevantRows = [];
+	let attempts = 0;
+	let countries;
+
+	while (relevantRows.length !== 2) {
+		attempts++;
+		console.log(`attempt no. ${attempts}:`);
+		countries = await find2RandomCountries();
+
+		console.log("2 names from Countries table: ");
+		countries.map((country) => console.log(country.toJSON().name));
+		const countriesFormatted = countries.map((country) => country.toJSON());
+
+		relevantRows = await findCorrespondingRow(relevantModel, relevantColumn, countriesFormatted);
+	}
+
+	const relevantRowsMini = relevantRows.map((row) => {
+		return {
+			[relevantColumn]: row[relevantColumn],
+			[relevantStat]: row[relevantStat],
+		};
+	});
+
+	relevantRowsMini.sort((a, b) => a[relevantStat] - b[relevantStat]);
+	for (const rowMini of relevantRowsMini) {
+		console.log(rowMini);
+	}
+
+	const answer = isFirst ? "Yes" : "No";
+
+	console.log("answer: ", answer);
+
+	const question_str = template.template
+		.replace("X", relevantRowsMini[0][relevantColumn])
+		.replace("Y", relevantRowsMini[1][relevantColumn]);
+
+	const questionObject = {
+		question_str,
+		type: template.type,
+		option1: "Yes",
+		option2: "No",
+		template: template.template,
+		answer,
+	};
+
+	console.log("question object: ", questionObject);
+
+	return questionObject;
+};
+
+const handleType2Template = async (relevantModel, relevantColumn, relevantStat, template) => {
 	let relevantRows = [];
 	let attempts = 0;
 	let countries;
@@ -219,7 +277,7 @@ const handleType1Template = async (
 const findRandomQuestionTemplate = async () => {
 	return QuestionTemplate.findOne({
 		where: {
-			type: 2,
+			type: 3,
 		},
 		order: Sequelize.literal("rand()"),
 	});
@@ -232,51 +290,31 @@ const find4RandomCountries = async () => {
 	});
 };
 
+const find2RandomCountries = async () => {
+	return Country.findAll({
+		order: Sequelize.literal("rand()"),
+		limit: 2,
+	});
+};
+
 const findCorrespondingRow = async (model, columnName, countries) => {
+	const options = [];
+	countries.forEach((_, index) => {
+		options.push({
+			[columnName]: {
+				[Op.and]: [
+					{ [Op.notLike]: `%(%${countries[index].name}%)%` },
+					{
+						[Op.like]: `%${countries[index].name}%`,
+					},
+				],
+			},
+		});
+	});
+
 	return model.findAll({
 		where: {
-			[Op.or]: [
-				{
-					[columnName]: {
-						[Op.and]: [
-							{ [Op.notLike]: `%(%${countries[0].name}%)%` },
-							{
-								[Op.like]: `%${countries[0].name}%`,
-							},
-						],
-					},
-				},
-				{
-					[columnName]: {
-						[Op.and]: [
-							{ [Op.notLike]: `%(%${countries[1].name}%)%` },
-							{
-								[Op.like]: `%${countries[1].name}%`,
-							},
-						],
-					},
-				},
-				{
-					[columnName]: {
-						[Op.and]: [
-							{ [Op.notLike]: `%(%${countries[2].name}%)%` },
-							{
-								[Op.like]: `%${countries[2].name}%`,
-							},
-						],
-					},
-				},
-				{
-					[columnName]: {
-						[Op.and]: [
-							{ [Op.notLike]: `%(%${countries[3].name}%)%` },
-							{
-								[Op.like]: `%${countries[3].name}%`,
-							},
-						],
-					},
-				},
-			],
+			[Op.or]: options,
 		},
 	});
 };
