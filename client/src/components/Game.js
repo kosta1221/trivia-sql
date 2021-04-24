@@ -35,6 +35,18 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom: "0.2rem",
 		paddingRight: "0.5rem",
 	},
+	scoreContainer: {
+		position: "absolute",
+		display: "flex",
+		alignItems: "center",
+		top: theme.spacing(2),
+		right: theme.spacing(2),
+	},
+	scoreText: {
+		fontSize: "1.5rem",
+		paddingBottom: "0.2rem",
+		paddingRight: "0.5rem",
+	},
 }));
 
 function Game() {
@@ -48,6 +60,7 @@ function Game() {
 
 	const [currentlyDisplayed, setCurrentlyDisplayed] = useState("question");
 	const [lives, setLives] = useState(3);
+	const [score, setScore] = useState(0);
 
 	useEffect(() => {
 		if (lives === 0) {
@@ -75,12 +88,17 @@ function Game() {
 							<HeartIcon key={`heart-icon-${i}`} className={classes.heart} />
 						))}
 				</div>
+				<div className={classes.scoreContainer}>
+					<span className={classes.scoreText}>{`Score: ${score}`}</span>
+				</div>
 				{currentlyDisplayed === "question" && (
 					<Question
 						data={data}
 						setCurrentlyDisplayed={setCurrentlyDisplayed}
 						lives={lives}
 						setLives={setLives}
+						score={score}
+						setScore={setScore}
 					/>
 				)}
 				{currentlyDisplayed === "rating" && (
