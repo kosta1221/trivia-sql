@@ -26,7 +26,7 @@ function Game() {
 		headers: { "Content-Type": "application/json" },
 	});
 
-	const [currentlyDisplayed, setCurrentlyDisplayed] = useState("rating");
+	const [currentlyDisplayed, setCurrentlyDisplayed] = useState("question");
 
 	if (loading) {
 		return <h1>LOADING...</h1>;
@@ -38,8 +38,12 @@ function Game() {
 	return (
 		<div className={classes.root}>
 			<Paper elevation={3}>
-				{currentlyDisplayed === "question" && <Question data={data} />}
-				{currentlyDisplayed === "rating" && <Rating question={data} />}
+				{currentlyDisplayed === "question" && (
+					<Question data={data} setCurrentlyDisplayed={setCurrentlyDisplayed} />
+				)}
+				{currentlyDisplayed === "rating" && (
+					<Rating question={data} setCurrentlyDisplayed={setCurrentlyDisplayed} refetch={refetch} />
+				)}
 			</Paper>
 		</div>
 	);

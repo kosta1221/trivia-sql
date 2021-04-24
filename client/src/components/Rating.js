@@ -6,7 +6,7 @@ import StarIcon from "@material-ui/icons/Star";
 import { URL } from "../utils";
 import axios from "axios";
 
-function Rating({ question }) {
+function Rating({ question, setCurrentlyDisplayed, refetch }) {
 	const [fullStars, setFullStars] = useState(0);
 
 	const handleStarHover = (event) => {
@@ -30,8 +30,11 @@ function Rating({ question }) {
 				data: questionWithRating,
 			});
 			console.log(response.data);
+			refetch();
 		} catch (e) {
 			console.log(e);
+		} finally {
+			setCurrentlyDisplayed("question");
 		}
 	};
 

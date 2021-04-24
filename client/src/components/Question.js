@@ -27,13 +27,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Question({ data }) {
+function Question({ data, setCurrentlyDisplayed }) {
 	const classes = useStyles();
 
 	const handleAnswerClick = (event) => {
 		const isUserAnswerCorrect = event.target.innerText === data.answer ? true : false;
 		console.log(event.target.innerText);
 		console.log(isUserAnswerCorrect);
+		setCurrentlyDisplayed("rating");
 	};
 
 	return (
