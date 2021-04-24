@@ -71,6 +71,14 @@ generate.get("/", async (req, res, next) => {
 			break;
 		case 2:
 			questionType = 2;
+
+			questionObject = await handleType2Template(
+				relevantModel,
+				relevantColumn,
+				isFirst,
+				relevantStat,
+				template
+			);
 			break;
 		case 3:
 			questionType = 3;
@@ -81,6 +89,72 @@ generate.get("/", async (req, res, next) => {
 
 	res.json(questionObject);
 });
+
+const handleType2Template = async (
+	relevantModel,
+	relevantColumn,
+	isFirst,
+	relevantStat,
+	template
+) => {
+	let relevantRows = [];
+	let attempts = 0;
+	let countries;
+
+	let options = [];
+
+	while (relevantRows.length !== 4 || !checkIfAllUnique(options)) {
+		attempts++;
+		console.log(`attempt no. ${attempts}:`);
+		countries = await find4RandomCountries();
+
+		console.log("4 names from Countries table: ");
+		countries.map((country) => console.log(country.toJSON().name));
+		const countriesFormatted = countries.map((country) => country.toJSON());
+
+		relevantRows = await findCorrespondingRow(relevantModel, relevantColumn, countriesFormatted);
+		options = relevantRows.map((row) => row[relevantStat]);
+	}
+
+	console.log("options: ", options);
+
+	const relevantRowsMini = relevantRows.map((row) => {
+		return {
+			[relevantColumn]: row[relevantColumn],
+			[relevantStat]: row[relevantStat],
+		};
+	});
+
+	for (const rowMini of relevantRowsMini) {
+		console.log(rowMini);
+	}
+
+	const question_str = template.template.replace("X", relevantRowsMini[0][relevantColumn]);
+
+	console.log("question string type 2: ", question_str);
+
+	console.log("attempts: ", attempts);
+
+	const answer = relevantRowsMini[0][relevantStat];
+	const shuffledOptions = shuffleArray(relevantRowsMini);
+
+	console.log("answer: ", answer);
+
+	const questionObject = {
+		question_str,
+		type: template.type,
+		option1: shuffledOptions[0][relevantStat],
+		option2: shuffledOptions[1][relevantStat],
+		option3: shuffledOptions[2][relevantStat],
+		option4: shuffledOptions[3][relevantStat],
+		template: template.template,
+		answer,
+	};
+
+	console.log("question object: ", questionObject);
+
+	return questionObject;
+};
 
 const handleType1Template = async (
 	relevantModel,
@@ -144,6 +218,9 @@ const handleType1Template = async (
 
 const findRandomQuestionTemplate = async () => {
 	return QuestionTemplate.findOne({
+		where: {
+			type: 2,
+		},
 		order: Sequelize.literal("rand()"),
 	});
 };
@@ -202,6 +279,24 @@ const findCorrespondingRow = async (model, columnName, countries) => {
 			],
 		},
 	});
+};
+
+function shuffleArray(array) {
+	const result = [...array];
+	for (let i = result.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[result[i], result[j]] = [result[j], result[i]];
+	}
+
+	return result;
+}
+
+const checkIfAllUnique = (array) => {
+	if (array.length === 0) return false;
+
+	let arrayNoDuplicates = array.filter((item, index) => array.indexOf(item) === index);
+
+	return arrayNoDuplicates.length === array.length ? true : false;
 };
 
 module.exports = generate;
