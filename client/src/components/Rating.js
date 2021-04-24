@@ -3,10 +3,27 @@ import React, { useState, useEffect } from "react";
 import StarOutlineIcon from "@material-ui/icons/StarOutline";
 import StarIcon from "@material-ui/icons/Star";
 
+import { makeStyles } from "@material-ui/core/styles";
+
 import { URL } from "../utils";
 import axios from "axios";
 
+const useStyles = makeStyles((theme) => ({
+	root: {
+		height: "100%",
+		display: `flex`,
+		justifyContent: `space-evenly`,
+		flexDirection: "column",
+		width: "60vmax",
+	},
+	star: {
+		fill: "#d4af37",
+	},
+}));
+
 function Rating({ question, setCurrentlyDisplayed, refetch }) {
+	const classes = useStyles();
+
 	const [fullStars, setFullStars] = useState(0);
 
 	const handleStarHover = (event) => {
@@ -47,16 +64,16 @@ function Rating({ question, setCurrentlyDisplayed, refetch }) {
 				value={i}
 				key={`star-${i}`}
 			>
-				{i <= fullStars && <StarIcon />}
-				{i > fullStars && <StarOutlineIcon />}
+				{i <= fullStars && <StarIcon className={classes.star} />}
+				{i > fullStars && <StarOutlineIcon className={classes.star} />}
 			</IconButton>
 		);
 	}
 
 	return (
-		<div>
+		<div className={classes.root}>
 			<h1>Please rate the previous question</h1>
-			{fiveStars}
+			<div>{fiveStars}</div>
 		</div>
 	);
 }
