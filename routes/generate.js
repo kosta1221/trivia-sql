@@ -25,6 +25,9 @@ generate.get("/", async (req, res, next) => {
 	let relevantModel;
 	let relevantColumn;
 	const relevantStat = template.column_name;
+	let isFirst = template.is_first;
+	let questionType;
+
 	switch (template.table_name) {
 		case "countries":
 			relevantModel = Country;
@@ -52,44 +55,92 @@ generate.get("/", async (req, res, next) => {
 			break;
 	}
 
-	let relevantRow = [];
-	let attempts = 0;
+	let questionObject;
 
-	while (relevantRow.length !== 4) {
+	switch (template.type) {
+		case 1:
+			questionType = 1;
+
+			questionObject = await handleType1Template(
+				relevantModel,
+				relevantColumn,
+				isFirst,
+				relevantStat,
+				template
+			);
+			break;
+		case 2:
+			questionType = 2;
+			break;
+		case 3:
+			questionType = 3;
+			break;
+	}
+
+	sequelize.options.logging = true;
+
+	res.json(questionObject);
+});
+
+const handleType1Template = async (
+	relevantModel,
+	relevantColumn,
+	isFirst,
+	relevantStat,
+	template
+) => {
+	let relevantRows = [];
+	let attempts = 0;
+	const question_str = template.template;
+	let countries;
+
+	while (relevantRows.length !== 4) {
 		attempts++;
 		console.log(`attempt no. ${attempts}:`);
-		const countries = await find4RandomCountries();
+		countries = await find4RandomCountries();
 
 		console.log("4 names from Countries table: ");
 		countries.map((country) => console.log(country.toJSON().name));
 		const countriesFormatted = countries.map((country) => country.toJSON());
 
-		relevantRow = await findCorrespondingRow(relevantModel, relevantColumn, countriesFormatted);
+		relevantRows = await findCorrespondingRow(relevantModel, relevantColumn, countriesFormatted);
 	}
 
 	console.log("attempts: ", attempts);
 
-	const relevantRowsMini = relevantRow.map((row) => {
+	const relevantRowsMini = relevantRows.map((row) => {
 		return {
 			[relevantColumn]: row[relevantColumn],
 			[relevantStat]: row[relevantStat],
 		};
 	});
+
 	relevantRowsMini.sort((a, b) => a[relevantStat] - b[relevantStat]);
 	for (const rowMini of relevantRowsMini) {
 		console.log(rowMini);
 	}
 
-	sequelize.options.logging = true;
+	const answer = isFirst
+		? relevantRowsMini[0][relevantColumn]
+		: relevantRowsMini[relevantRowsMini.length - 1][relevantColumn];
 
-	res.json({
-		questionStr: "placeholder",
-		option1: "option1",
-		option2: "option2",
-		option3: "option3",
-		option4: "option4",
-	});
-});
+	console.log("answer: ", answer);
+
+	const questionObject = {
+		question_str, // !!!
+		type: template.type,
+		option1: countries[0].toJSON().name,
+		option2: countries[1].toJSON().name,
+		option3: countries[2].toJSON().name,
+		option4: countries[3].toJSON().name,
+		template: template.template,
+		answer,
+	};
+
+	console.log("question object: ", questionObject);
+
+	return questionObject;
+};
 
 const findRandomQuestionTemplate = async () => {
 	return QuestionTemplate.findOne({
