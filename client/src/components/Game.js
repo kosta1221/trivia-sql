@@ -29,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: `center`,
 	},
 	optionButton: {
+		textTransform: "none",
 		margin: "0.8vh",
+		width: "50%",
 		flexGrow: 1,
 	},
 }));
@@ -53,7 +55,7 @@ function Game() {
 	return (
 		<div className={classes.root}>
 			<Paper className={classes.question} elevation={3}>
-				{data.questionStr}
+				{data.question_str}
 				<div className={classes.questionOptions}>
 					<div className={classes.questionOptionsInner}>
 						<Button className={classes.optionButton} variant="outlined" color="primary">
@@ -65,12 +67,16 @@ function Game() {
 					</div>
 
 					<div className={classes.questionOptionsInner}>
-						<Button className={classes.optionButton} variant="outlined" color="primary">
-							{data.option3}
-						</Button>
-						<Button className={classes.optionButton} variant="outlined" color="primary">
-							{data.option4}
-						</Button>
+						{data.option3 && (
+							<Button className={classes.optionButton} variant="outlined" color="primary">
+								{data.option3}
+							</Button>
+						)}
+						{data.option4 && (
+							<Button className={classes.optionButton} variant="outlined" color="primary">
+								{data.option4}
+							</Button>
+						)}
 					</div>
 				</div>
 			</Paper>
