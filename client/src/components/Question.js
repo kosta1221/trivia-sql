@@ -64,7 +64,11 @@ function Question({ data, setCurrentlyDisplayed, lives, setLives, score, setScor
 		if (!isUserAnswerCorrect) {
 			setLives(lives - 1);
 		} else {
-			setScore(score + 100);
+			const timeItTookToAnswer = 20 - questionTime;
+			console.log(questionTime);
+			console.log(timeItTookToAnswer);
+			const scoreToAdd = Math.round((1 - timeItTookToAnswer / 20) * 70 + 30);
+			setScore(score + scoreToAdd);
 		}
 	};
 
