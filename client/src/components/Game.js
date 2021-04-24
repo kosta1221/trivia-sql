@@ -61,6 +61,7 @@ function Game() {
 	const [currentlyDisplayed, setCurrentlyDisplayed] = useState("question");
 	const [lives, setLives] = useState(3);
 	const [score, setScore] = useState(0);
+	const [correctQuestionsAnswered, setCorrectQuestionsAnswered] = useState(0);
 
 	useEffect(() => {
 		if (lives === 0) {
@@ -99,6 +100,8 @@ function Game() {
 						setLives={setLives}
 						score={score}
 						setScore={setScore}
+						correctQuestionsAnswered={correctQuestionsAnswered}
+						setCorrectQuestionsAnswered={setCorrectQuestionsAnswered}
 					/>
 				)}
 				{currentlyDisplayed === "rating" && (

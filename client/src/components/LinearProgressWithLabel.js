@@ -12,7 +12,7 @@ function LinearProgressWithLabel(props) {
 			</Box>
 			<Box minWidth={35}>
 				<Typography variant="body2" color="textSecondary">
-					{Math.round(props.questionTime)}
+					{Math.round(props.remainingQuestionTime)}
 				</Typography>
 			</Box>
 		</Box>
