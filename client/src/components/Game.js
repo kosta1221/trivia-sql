@@ -39,7 +39,7 @@ function Game() {
 		<div className={classes.root}>
 			<Paper elevation={3}>
 				{currentlyDisplayed === "question" && <Question data={data} />}
-				{currentlyDisplayed === "rating" && <Rating />}
+				{currentlyDisplayed === "rating" && <Rating question={data} />}
 			</Paper>
 		</div>
 	);

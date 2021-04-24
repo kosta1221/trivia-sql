@@ -3,17 +3,36 @@ import React, { useState, useEffect } from "react";
 import StarOutlineIcon from "@material-ui/icons/StarOutline";
 import StarIcon from "@material-ui/icons/Star";
 
-function Rating() {
+import { URL } from "../utils";
+import axios from "axios";
+
+function Rating({ question }) {
 	const [fullStars, setFullStars] = useState(0);
 
 	const handleStarHover = (event) => {
 		const value = event.target.getAttribute("value");
 		console.log(value);
-		setFullStars(value);
+		setFullStars(+value);
 	};
 
-	const handleStarClick = (event) => {
+	const handleStarClick = async (event) => {
 		console.log(`${fullStars} stars`);
+		const questionWithRating = {
+			...question,
+			rating: fullStars,
+		};
+		console.log(questionWithRating);
+		try {
+			const response = await axios({
+				method: "POST",
+				url: `${URL}/rate`,
+				headers: { "Content-Type": "application/json" },
+				data: questionWithRating,
+			});
+			console.log(response.data);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	let fiveStars = [];
