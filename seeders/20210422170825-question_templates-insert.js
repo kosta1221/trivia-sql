@@ -78,7 +78,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "What is the capital of X?",
+					template: "What is the capital of XXXXX?",
 					type: 2,
 					is_first: null,
 					table_name: "capitals",
@@ -87,7 +87,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "How many people live in X?",
+					template: "How many people live in XXXXX?",
 					type: 2,
 					is_first: null,
 					table_name: "population_density",
@@ -96,7 +96,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "In what continent is X?",
+					template: "In what continent is XXXXX?",
 					type: 2,
 					is_first: null,
 					table_name: "capitals",
@@ -105,7 +105,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Are there more people in X than in Y?",
+					template: "Are there more people in XXXXX than in YYYYY?",
 					type: 3,
 					is_first: false,
 					table_name: "population_density",
@@ -114,7 +114,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Are there less people in X than in Y?",
+					template: "Are there less people in XXXXX than in YYYYY?",
 					type: 3,
 					is_first: true,
 					table_name: "population_density",
@@ -123,7 +123,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Is X larger than Y?",
+					template: "Is XXXXX larger than YYYYY?",
 					type: 3,
 					is_first: false,
 					table_name: "population_density",
@@ -132,7 +132,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Is X smaller than Y?",
+					template: "Is XXXXX smaller than YYYYY?",
 					type: 3,
 					is_first: true,
 					table_name: "population_density",
@@ -141,7 +141,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Does X have a higher population density than Y?",
+					template: "Does XXXXX have a higher population density than YYYYY?",
 					type: 3,
 					is_first: false,
 					table_name: "population_density",
@@ -150,7 +150,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Does X have a lower population density than Y?",
+					template: "Does XXXXX have a lower population density than YYYYY?",
 					type: 3,
 					is_first: true,
 					table_name: "population_density",
@@ -159,7 +159,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Is the quality of life in X higher than the quality of life in Y?",
+					template: "Is the quality of life in XXXXX higher than the quality of life in YYYYY?",
 					type: 3,
 					is_first: false,
 					table_name: "quality_of_life_indices",
@@ -168,7 +168,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Is the quality of life in X lower than the quality of life in Y?",
+					template: "Is the quality of life in XXXXX lower than the quality of life in YYYYY?",
 					type: 3,
 					is_first: true,
 					table_name: "quality_of_life_indices",
@@ -177,7 +177,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Is the crime rate of X higher than the crime rate in Y?",
+					template: "Is the crime rate of XXXXX higher than the crime rate in YYYYY?",
 					type: 3,
 					is_first: false,
 					table_name: "crime_indices",
@@ -186,7 +186,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Are restaurants in X more expensive than restaurants in Y?",
+					template: "Are restaurants in XXXXX more expensive than restaurants in YYYYY?",
 					type: 3,
 					is_first: false,
 					table_name: "cost_of_living_indices",
@@ -195,7 +195,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Are restaurants in X less expensive than restaurants in Y?",
+					template: "Are restaurants in XXXXX less expensive than restaurants in YYYYY?",
 					type: 3,
 					is_first: true,
 					table_name: "cost_of_living_indices",
@@ -204,7 +204,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Does X have a higher litercy rate than Y?",
+					template: "Does XXXXX have a higher litercy rate than YYYYY?",
 					type: 3,
 					is_first: false,
 					table_name: "countries",
@@ -213,7 +213,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Does X have a lower litercy rate than Y?",
+					template: "Does XXXXX have a lower litercy rate than YYYYY?",
 					type: 3,
 					is_first: true,
 					table_name: "countries",
@@ -276,7 +276,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Does X have a morality rate of higher than Z%",
+					template: "Does XXXXX have a morality rate of higher than ZZZZZ%",
 					type: 4,
 					is_first: false,
 					table_name: "countries",
@@ -285,7 +285,7 @@ module.exports = {
 					updated_at: new Date(),
 				},
 				{
-					template: "Does X have a morality rate of lower than Z%",
+					template: "Does XXXXX have a morality rate of lower than ZZZZZ%",
 					type: 4,
 					is_first: true,
 					table_name: "countries",

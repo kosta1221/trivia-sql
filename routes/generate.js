@@ -26,7 +26,6 @@ generate.get("/", async (req, res, next) => {
 	let relevantColumn;
 	const relevantStat = template.column_name;
 	let isFirst = template.is_first;
-	let questionType;
 
 	switch (template.table_name) {
 		case "countries":
@@ -59,8 +58,6 @@ generate.get("/", async (req, res, next) => {
 
 	switch (template.type) {
 		case 1:
-			questionType = 1;
-
 			questionObject = await handleType1Template(
 				relevantModel,
 				relevantColumn,
@@ -70,9 +67,15 @@ generate.get("/", async (req, res, next) => {
 			);
 			break;
 		case 2:
-			questionType = 2;
-
 			questionObject = await handleType2Template(
+				relevantModel,
+				relevantColumn,
+				relevantStat,
+				template
+			);
+			break;
+		case 3:
+			questionObject = await handleType3Template(
 				relevantModel,
 				relevantColumn,
 				isFirst,
@@ -80,9 +83,8 @@ generate.get("/", async (req, res, next) => {
 				template
 			);
 			break;
-		case 3:
-			questionType = 3;
-			questionObject = await handleType3Template(
+		case 4:
+			questionObject = await handleType4Template(
 				relevantModel,
 				relevantColumn,
 				isFirst,
@@ -97,7 +99,7 @@ generate.get("/", async (req, res, next) => {
 	res.json(questionObject);
 });
 
-const handleType3Template = async (
+const handleType4Template = async (
 	relevantModel,
 	relevantColumn,
 	isFirst,
@@ -107,8 +109,10 @@ const handleType3Template = async (
 	let relevantRows = [];
 	let attempts = 0;
 	let countries;
+	let isDiffLessThan2 = true;
+	let areSomeRelevantStatsNull = true;
 
-	while (relevantRows.length !== 2) {
+	while (relevantRows.length !== 2 || isDiffLessThan2 || areSomeRelevantStatsNull) {
 		attempts++;
 		console.log(`attempt no. ${attempts}:`);
 		countries = await find2RandomCountries();
@@ -118,6 +122,11 @@ const handleType3Template = async (
 		const countriesFormatted = countries.map((country) => country.toJSON());
 
 		relevantRows = await findCorrespondingRow(relevantModel, relevantColumn, countriesFormatted);
+
+		isDiffLessThan2 = Math.abs(relevantRows[0][relevantStat] - relevantRows[1][relevantStat]) <= 2;
+
+		areSomeRelevantStatsNull = relevantRows.some((row) => row[relevantStat] === null);
+		console.log("are some relevant stats null?: ", areSomeRelevantStatsNull);
 	}
 
 	const relevantRowsMini = relevantRows.map((row) => {
@@ -137,8 +146,77 @@ const handleType3Template = async (
 	console.log("answer: ", answer);
 
 	const question_str = template.template
-		.replace("X", relevantRowsMini[0][relevantColumn])
-		.replace("Y", relevantRowsMini[1][relevantColumn]);
+		.replace("XXXXX", relevantRowsMini[0][relevantColumn])
+		.replace("ZZZZZ", Math.round(relevantRowsMini[1][relevantStat]));
+
+	console.log("question string type 4: ", question_str);
+
+	console.log("attempts: ", attempts);
+
+	const questionObject = {
+		question_str,
+		type: template.type,
+		option1: "Yes",
+		option2: "No",
+		template: template.template,
+		answer,
+	};
+
+	console.log("question object: ", questionObject);
+
+	return questionObject;
+};
+
+const handleType3Template = async (
+	relevantModel,
+	relevantColumn,
+	isFirst,
+	relevantStat,
+	template
+) => {
+	let relevantRows = [];
+	let attempts = 0;
+	let countries;
+	let areSomeRelevantStatsNull = true;
+
+	while (relevantRows.length !== 2 || areSomeRelevantStatsNull) {
+		attempts++;
+		console.log(`attempt no. ${attempts}:`);
+		countries = await find2RandomCountries();
+
+		console.log("2 names from Countries table: ");
+		countries.map((country) => console.log(country.toJSON().name));
+		const countriesFormatted = countries.map((country) => country.toJSON());
+
+		relevantRows = await findCorrespondingRow(relevantModel, relevantColumn, countriesFormatted);
+
+		areSomeRelevantStatsNull = relevantRows.some((row) => row[relevantStat] === null);
+		console.log("are some relevant stats null?: ", areSomeRelevantStatsNull);
+	}
+
+	const relevantRowsMini = relevantRows.map((row) => {
+		return {
+			[relevantColumn]: row[relevantColumn],
+			[relevantStat]: row[relevantStat],
+		};
+	});
+
+	relevantRowsMini.sort((a, b) => a[relevantStat] - b[relevantStat]);
+	for (const rowMini of relevantRowsMini) {
+		console.log(rowMini);
+	}
+
+	const answer = isFirst ? "Yes" : "No";
+
+	console.log("answer: ", answer);
+
+	const question_str = template.template
+		.replace("XXXXX", relevantRowsMini[0][relevantColumn])
+		.replace("YYYYY", relevantRowsMini[1][relevantColumn]);
+
+	console.log("question string type 3: ", question_str);
+
+	console.log("attempts: ", attempts);
 
 	const questionObject = {
 		question_str,
@@ -160,8 +238,9 @@ const handleType2Template = async (relevantModel, relevantColumn, relevantStat, 
 	let countries;
 
 	let options = [];
+	let areSomeRelevantStatsNull = true;
 
-	while (relevantRows.length !== 4 || !checkIfAllUnique(options)) {
+	while (relevantRows.length !== 4 || !checkIfAllUnique(options) || areSomeRelevantStatsNull) {
 		attempts++;
 		console.log(`attempt no. ${attempts}:`);
 		countries = await find4RandomCountries();
@@ -171,7 +250,11 @@ const handleType2Template = async (relevantModel, relevantColumn, relevantStat, 
 		const countriesFormatted = countries.map((country) => country.toJSON());
 
 		relevantRows = await findCorrespondingRow(relevantModel, relevantColumn, countriesFormatted);
+
 		options = relevantRows.map((row) => row[relevantStat]);
+
+		areSomeRelevantStatsNull = relevantRows.some((row) => row[relevantStat] === null);
+		console.log("are some relevant stats null?: ", areSomeRelevantStatsNull);
 	}
 
 	console.log("options: ", options);
@@ -187,7 +270,7 @@ const handleType2Template = async (relevantModel, relevantColumn, relevantStat, 
 		console.log(rowMini);
 	}
 
-	const question_str = template.template.replace("X", relevantRowsMini[0][relevantColumn]);
+	const question_str = template.template.replace("XXXXX", relevantRowsMini[0][relevantColumn]);
 
 	console.log("question string type 2: ", question_str);
 
@@ -225,8 +308,9 @@ const handleType1Template = async (
 	let attempts = 0;
 	const question_str = template.template;
 	let countries;
+	let areSomeRelevantStatsNull = true;
 
-	while (relevantRows.length !== 4) {
+	while (relevantRows.length !== 4 || areSomeRelevantStatsNull) {
 		attempts++;
 		console.log(`attempt no. ${attempts}:`);
 		countries = await find4RandomCountries();
@@ -236,6 +320,9 @@ const handleType1Template = async (
 		const countriesFormatted = countries.map((country) => country.toJSON());
 
 		relevantRows = await findCorrespondingRow(relevantModel, relevantColumn, countriesFormatted);
+
+		areSomeRelevantStatsNull = relevantRows.some((row) => row[relevantStat] === null);
+		console.log("are some relevant stats null?: ", areSomeRelevantStatsNull);
 	}
 
 	console.log("attempts: ", attempts);
@@ -259,7 +346,7 @@ const handleType1Template = async (
 	console.log("answer: ", answer);
 
 	const questionObject = {
-		question_str, // !!!
+		question_str,
 		type: template.type,
 		option1: countries[0].toJSON().name,
 		option2: countries[1].toJSON().name,
@@ -276,9 +363,6 @@ const handleType1Template = async (
 
 const findRandomQuestionTemplate = async () => {
 	return QuestionTemplate.findOne({
-		where: {
-			type: 3,
-		},
 		order: Sequelize.literal("rand()"),
 	});
 };
