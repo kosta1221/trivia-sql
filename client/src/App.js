@@ -6,8 +6,11 @@ import Game from "./components/Game";
 import HomePage from "./components/HomePage";
 import Leaderboards from "./components/Leaderboards";
 
+import { URL } from "./utils";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
+
+import useAxios from "axios-hooks";
 
 const initialTheme = createMuiTheme({
 	palette: {
@@ -26,6 +29,12 @@ const initialTheme = createMuiTheme({
 });
 
 function App() {
+	const [{ data, loading, error }, refetch] = useAxios({
+		method: "GET",
+		url: `${URL}/get-avatars`,
+		headers: { "Content-Type": "application/json" },
+	});
+
 	const [theme, setTheme] = useState(initialTheme);
 
 	const useStyles = makeStyles(() => ({
@@ -50,7 +59,12 @@ function App() {
 							exact
 							path="/"
 							render={(props) => (
-								<HomePage playerName={playerName} setPlayerName={setPlayerName} {...props} />
+								<HomePage
+									playerName={playerName}
+									setPlayerName={setPlayerName}
+									avatars={data}
+									{...props}
+								/>
 							)}
 						/>
 						<Route

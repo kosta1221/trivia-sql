@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { useRouter } from "./useRouter";
 
 import { Link } from "react-router-dom";
+import AvatarGrid from "./AvatarGrid";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function HomePage({ playerName, setPlayerName }) {
+function HomePage({ playerName, setPlayerName, avatars }) {
 	const classes = useStyles();
 
 	const router = useRouter();
@@ -51,6 +52,7 @@ function HomePage({ playerName, setPlayerName }) {
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
+			<AvatarGrid avatars={avatars} />
 			<TextField
 				onChange={handleInputChange}
 				className={classes.textField}
