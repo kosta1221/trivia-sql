@@ -4,6 +4,7 @@ const { Router } = require("express");
 const fetchQuestion = require("./fetch-question");
 const rate = require("./rate");
 const savePlayer = require("./save-player");
+const leaderboards = require("./leaderboards");
 
 const router = Router();
 
@@ -12,5 +13,6 @@ const router = Router();
 router.use("/fetch-question", fetchQuestion);
 router.use("/rate", rate);
 router.use("/save-player", savePlayer);
+router.use("/leaderboards", leaderboards);
 
 module.exports = router;

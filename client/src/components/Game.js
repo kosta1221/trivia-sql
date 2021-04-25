@@ -67,7 +67,6 @@ function Game({ playerName, match }) {
 	);
 
 	useEffect(() => {
-		console.log("hiii");
 		refetch();
 	}, []);
 
