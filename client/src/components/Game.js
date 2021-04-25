@@ -52,11 +52,25 @@ const useStyles = makeStyles((theme) => ({
 function Game() {
 	const classes = useStyles();
 
-	const [{ data, loading, error }, refetch] = useAxios({
-		method: "GET",
-		url: `${URL}/generate`,
-		headers: { "Content-Type": "application/json" },
-	});
+	const [questionsAskedTotal, setQuestionsAskedTotal] = useState(0);
+
+	const [{ data, loading, error }, refetch] = useAxios(
+		{
+			method: "GET",
+			url: `${URL}/fetch-question`,
+			headers: { "Content-Type": "application/json" },
+			params: { questionsAskedTotal },
+		},
+		{ manual: true }
+	);
+
+	useEffect(() => {
+		console.log("hiii");
+		refetch();
+	}, []);
+
+	console.log(data);
+	console.log("questions asked state: ", questionsAskedTotal);
 
 	const [currentlyDisplayed, setCurrentlyDisplayed] = useState("question");
 	const [lives, setLives] = useState(3);
@@ -102,16 +116,26 @@ function Game() {
 						setScore={setScore}
 						correctQuestionsAnswered={correctQuestionsAnswered}
 						setCorrectQuestionsAnswered={setCorrectQuestionsAnswered}
+						questionsAskedTotal={questionsAskedTotal}
+						setQuestionsAskedTotal={setQuestionsAskedTotal}
 					/>
 				)}
 				{currentlyDisplayed === "rating" && (
-					<Rating question={data} setCurrentlyDisplayed={setCurrentlyDisplayed} refetch={refetch} />
+					<Rating
+						question={data}
+						setCurrentlyDisplayed={setCurrentlyDisplayed}
+						refetch={refetch}
+						setQuestionsAskedTotal={setQuestionsAskedTotal}
+					/>
 				)}
 				{currentlyDisplayed === "game_over" && (
 					<GameOver
 						setCurrentlyDisplayed={setCurrentlyDisplayed}
 						refetch={refetch}
 						setLives={setLives}
+						setCorrectQuestionsAnswered={setCorrectQuestionsAnswered}
+						setQuestionsAskedTotal={setQuestionsAskedTotal}
+						setScore={setScore}
 					/>
 				)}
 			</Paper>

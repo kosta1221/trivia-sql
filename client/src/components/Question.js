@@ -37,11 +37,12 @@ function Question({
 	setScore,
 	correctQuestionsAnswered,
 	setCorrectQuestionsAnswered,
+	questionsAskedTotal,
+	setQuestionsAskedTotal,
 }) {
 	const classes = useStyles();
 
 	const totalQuestionTime = 20 - correctQuestionsAnswered * 0.5;
-	console.log(totalQuestionTime);
 
 	const [remainingQuestionTime, setRemainingQuestionTime] = useState(totalQuestionTime);
 	const [progress, setProgress] = useState(100);
@@ -75,6 +76,8 @@ function Question({
 		console.log(event.target.innerText);
 		console.log(isUserAnswerCorrect);
 		setCurrentlyDisplayed("rating");
+
+		setQuestionsAskedTotal((prevQuestionsAskedTotal) => prevQuestionsAskedTotal + 1);
 		if (!isUserAnswerCorrect) {
 			setLives(lives - 1);
 		} else {
@@ -84,56 +87,59 @@ function Question({
 			const scoreToAdd = Math.round((1 - timeItTookToAnswer / totalQuestionTime) * 70 + 30);
 			setScore(score + scoreToAdd);
 			setCorrectQuestionsAnswered(correctQuestionsAnswered + 1);
+			console.log("correct questions answered: ", correctQuestionsAnswered + 1);
 		}
 	};
 
 	return (
 		<div className={classes.question}>
 			<LinearProgressWithLabel value={progress} remainingQuestionTime={remainingQuestionTime} />
-			{data.question_str}
-			<div className={classes.questionOptions}>
-				<div className={classes.questionOptionsInner}>
-					<Button
-						onClick={handleAnswerClick}
-						className={classes.optionButton}
-						variant="outlined"
-						color="primary"
-					>
-						{data.option1}
-					</Button>
-					<Button
-						onClick={handleAnswerClick}
-						className={classes.optionButton}
-						variant="outlined"
-						color="primary"
-					>
-						{data.option2}
-					</Button>
-				</div>
+			{data && data.question_str}
+			{data && (
+				<div className={classes.questionOptions}>
+					<div className={classes.questionOptionsInner}>
+						<Button
+							onClick={handleAnswerClick}
+							className={classes.optionButton}
+							variant="outlined"
+							color="primary"
+						>
+							{data.option1}
+						</Button>
+						<Button
+							onClick={handleAnswerClick}
+							className={classes.optionButton}
+							variant="outlined"
+							color="primary"
+						>
+							{data.option2}
+						</Button>
+					</div>
 
-				<div className={classes.questionOptionsInner}>
-					{data.option3 && (
-						<Button
-							onClick={handleAnswerClick}
-							className={classes.optionButton}
-							variant="outlined"
-							color="primary"
-						>
-							{data.option3}
-						</Button>
-					)}
-					{data.option4 && (
-						<Button
-							onClick={handleAnswerClick}
-							className={classes.optionButton}
-							variant="outlined"
-							color="primary"
-						>
-							{data.option4}
-						</Button>
-					)}
+					<div className={classes.questionOptionsInner}>
+						{data.option3 && (
+							<Button
+								onClick={handleAnswerClick}
+								className={classes.optionButton}
+								variant="outlined"
+								color="primary"
+							>
+								{data.option3}
+							</Button>
+						)}
+						{data.option4 && (
+							<Button
+								onClick={handleAnswerClick}
+								className={classes.optionButton}
+								variant="outlined"
+								color="primary"
+							>
+								{data.option4}
+							</Button>
+						)}
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 }

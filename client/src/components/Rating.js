@@ -21,14 +21,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Rating({ question, setCurrentlyDisplayed, refetch }) {
+function Rating({ question, setCurrentlyDisplayed, refetch, setQuestionsAskedTotal }) {
 	const classes = useStyles();
 
 	const [fullStars, setFullStars] = useState(0);
 
 	const handleStarHover = (event) => {
 		const value = event.target.getAttribute("value");
-		console.log(value);
 		setFullStars(+value);
 	};
 
@@ -47,7 +46,7 @@ function Rating({ question, setCurrentlyDisplayed, refetch }) {
 				data: questionWithRating,
 			});
 			console.log(response.data);
-			refetch();
+			await refetch();
 		} catch (e) {
 			console.log(e);
 		} finally {

@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
@@ -27,13 +27,31 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function GameOver({ setCurrentlyDisplayed, refetch, setLives }) {
+function GameOver({
+	setCurrentlyDisplayed,
+	refetch,
+	setLives,
+	setCorrectQuestionsAnswered,
+	setQuestionsAskedTotal,
+	setScore,
+}) {
 	const classes = useStyles();
 
+	useEffect(() => {
+		setCorrectQuestionsAnswered(0);
+		setQuestionsAskedTotal(0);
+	}, []);
+
 	const handlePlayAgain = async (event) => {
-		await refetch;
-		setCurrentlyDisplayed("question");
 		setLives(3);
+		setScore(0);
+		try {
+			await refetch();
+		} catch (error) {
+			console.log(error);
+		}
+
+		setCurrentlyDisplayed("question");
 	};
 
 	return (
