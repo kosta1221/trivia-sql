@@ -15,3 +15,17 @@ export const savePlayer = (playerToSave) => {
 		})
 		.catch((err) => console.log(err));
 };
+
+export const checkLeadeboards = async () => {
+	console.log("trying to check leaderboards");
+	try {
+		const response = await axios({
+			method: "GET",
+			url: `${URL}/leaderboards`,
+			headers: { "Content-Type": "application/json" },
+		});
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};

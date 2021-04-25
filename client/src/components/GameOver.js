@@ -1,10 +1,10 @@
 import { Button } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
 
-import { savePlayer } from "../utils";
+import { savePlayer, checkLeadeboards } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -42,9 +42,23 @@ function GameOver({
 }) {
 	const classes = useStyles();
 
+	const [leaderboardPlace, setLeaderboardPlace] = useState(0);
+
 	useEffect(() => {
 		setCorrectQuestionsAnswered(0);
 		setQuestionsAskedTotal([]);
+
+		checkLeadeboards()
+			.then((players) => {
+				players.every((playerOnLeaderboards, i) => {
+					if (score > playerOnLeaderboards.score) {
+						setLeaderboardPlace(i + 1);
+						return false;
+					}
+					return true;
+				});
+			})
+			.catch((err) => console.log(err));
 	}, []);
 
 	const handleMainMenu = async (event) => {
@@ -81,6 +95,7 @@ function GameOver({
 	return (
 		<div className={classes.root}>
 			<h1 className={classes.gameOver}>GAME OVER!</h1>
+			<h1 className={classes.gameOver}>{`Your leaderboard position: ${leaderboardPlace}`}</h1>
 			<div>
 				<Button
 					onClick={handlePlayAgain}

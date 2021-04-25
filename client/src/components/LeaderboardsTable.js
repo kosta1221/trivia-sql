@@ -41,8 +41,9 @@ export default function LeaderboardsTable({ data }) {
 				<TableHead>
 					<TableRow>
 						<StyledTableCell align="center">Avatar id</StyledTableCell>
-						<StyledTableCell align="center">Score</StyledTableCell>
+						<StyledTableCell align="center">Place</StyledTableCell>
 						<StyledTableCell align="center">Name</StyledTableCell>
+						<StyledTableCell align="center">Score</StyledTableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -51,6 +52,7 @@ export default function LeaderboardsTable({ data }) {
 							<StyledTableCell component="th" scope="row" align="center">
 								{row.avatar_id}
 							</StyledTableCell>
+							<StyledTableCell align="center">{i + 1}</StyledTableCell>
 							<StyledTableCell align="center">{row.name}</StyledTableCell>
 							<StyledTableCell align="center">{row.score}</StyledTableCell>
 						</StyledTableRow>

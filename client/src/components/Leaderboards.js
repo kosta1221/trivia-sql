@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import useAxios from "axios-hooks";
 import LeaderboardsTable from "./LeaderboardsTable";
@@ -11,6 +11,10 @@ function Leaderboards() {
 		url: `${URL}/leaderboards`,
 		headers: { "Content-Type": "application/json" },
 	});
+
+	useEffect(() => {
+		refetch();
+	}, []);
 
 	console.log(data);
 
