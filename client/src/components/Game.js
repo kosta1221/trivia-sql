@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Game() {
+function Game({ playerName }) {
 	const classes = useStyles();
 
 	const [questionsAskedTotal, setQuestionsAskedTotal] = useState([]);

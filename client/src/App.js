@@ -1,4 +1,5 @@
 import "./styles/App.css";
+import React, { useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Game from "./components/Game";
@@ -15,12 +16,24 @@ const useStyles = makeStyles((theme) => ({
 function App() {
 	const classes = useStyles();
 
+	const [playerName, setPlayerName] = useState("");
+
 	return (
 		<div className={`App ${classes.root}`}>
 			<BrowserRouter>
 				<Switch>
-					<Route exact path="/" render={(props) => <HomePage {...props} />} />
-					<Route exact path="/game" render={(props) => <Game {...props}></Game>} />
+					<Route
+						exact
+						path="/"
+						render={(props) => (
+							<HomePage playerName={playerName} setPlayerName={setPlayerName} {...props} />
+						)}
+					/>
+					<Route
+						exact
+						path="/game"
+						render={(props) => <Game {...props} playerName={playerName}></Game>}
+					/>
 				</Switch>
 			</BrowserRouter>
 		</div>
