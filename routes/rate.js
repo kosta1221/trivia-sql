@@ -23,7 +23,7 @@ rate.post("/", async (req, res, next) => {
 	if (foundQuestion) {
 		const foundQuestionFormatted = foundQuestion.toJSON();
 
-		console.log("FOUND QUESTION!!!: ", foundQuestionFormatted);
+		console.log("found question which already exists to rate it: ", foundQuestionFormatted);
 
 		const newRating =
 			(foundQuestionFormatted.number_of_ratings * foundQuestionFormatted.rating +
@@ -36,7 +36,7 @@ rate.post("/", async (req, res, next) => {
 			number_of_ratings: foundQuestionFormatted.number_of_ratings + 1,
 		};
 	} else {
-		console.log("FOUND QUESTION!!!: ", foundQuestion);
+		console.log("found question which already exists to rate it: ", foundQuestion);
 
 		questionToInsert = {
 			...ratedQuestion,
