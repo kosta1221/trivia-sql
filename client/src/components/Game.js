@@ -49,8 +49,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Game({ playerName }) {
+function Game({ playerName, match }) {
 	const classes = useStyles();
+
+	const playerNameParam = match.params.name;
 
 	const [questionsAskedTotal, setQuestionsAskedTotal] = useState([]);
 
@@ -131,7 +133,7 @@ function Game({ playerName }) {
 						setQuestionsAskedTotal={setQuestionsAskedTotal}
 						score={score}
 						setScore={setScore}
-						playerName={playerName}
+						playerNameParam={playerNameParam}
 					/>
 				)}
 			</Paper>

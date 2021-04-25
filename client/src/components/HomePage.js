@@ -38,7 +38,7 @@ function HomePage({ playerName, setPlayerName }) {
 		if (playerName === "") {
 			return;
 		}
-		router.push(`/game`);
+		router.push(`/game/${playerName}`);
 	};
 
 	const handleInputChange = (e) => {

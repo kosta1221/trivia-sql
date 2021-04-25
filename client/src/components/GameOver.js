@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
 
-import { URL, savePlayer } from "../utils";
+import { savePlayer } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -38,6 +38,7 @@ function GameOver({
 	score,
 	setScore,
 	playerName,
+	playerNameParam,
 }) {
 	const classes = useStyles();
 
@@ -48,7 +49,7 @@ function GameOver({
 
 	const handleMainMenu = async (event) => {
 		const playerToSave = {
-			name: playerName,
+			name: playerNameParam,
 			score: score,
 			avatar_id: 1,
 		};
@@ -60,7 +61,7 @@ function GameOver({
 		setLives(3);
 
 		const playerToSave = {
-			name: playerName,
+			name: playerNameParam,
 			score: score,
 			avatar_id: 1,
 		};
