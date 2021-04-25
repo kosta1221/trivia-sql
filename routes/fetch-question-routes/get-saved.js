@@ -8,33 +8,26 @@ const Op = Sequelize.Op;
 getSaved.put("/", async (req, res, next) => {
 	const { questionsAskedTotal } = req.body;
 
-	const options = [];
-	// questionsAskedTotal.forEach((question, i) => {
-	// 	options.push({
-
-	//     });
-	// });
-
 	if (questionsAskedTotal.length === 0) {
-		const savedQuestion = await SavedQuestion.findOne({
+		const savedQuestionUnique = await SavedQuestion.findOne({
 			order: Sequelize.literal("rand()"),
 		});
 
 		const questionObject = {
-			question_str: savedQuestion.question_str,
-			type: savedQuestion.type,
-			option1: savedQuestion.option1,
-			option2: savedQuestion.option2,
-			option3: savedQuestion.option3,
-			option4: savedQuestion.option4,
-			template: savedQuestion.template,
-			answer: savedQuestion.answer,
+			question_str: savedQuestionUnique.question_str,
+			type: savedQuestionUnique.type,
+			option1: savedQuestionUnique.option1,
+			option2: savedQuestionUnique.option2,
+			option3: savedQuestionUnique.option3,
+			option4: savedQuestionUnique.option4,
+			template: savedQuestionUnique.template,
+			answer: savedQuestionUnique.answer,
 		};
 
 		return res.json(questionObject);
 	}
 
-	const savedQuestions = await SavedQuestion.findAll({
+	const savedQuestionUnique = await SavedQuestion.findOne({
 		where: {
 			[Op.not]: [
 				[
@@ -44,31 +37,18 @@ getSaved.put("/", async (req, res, next) => {
 				],
 			],
 		},
+		order: Sequelize.literal("rand()"),
 	});
-
-	const savedQuestion = await SavedQuestion.findOne({
-		where: {
-			[Op.not]: [
-				[
-					{ question_str: questionsAskedTotal.map((question) => question.question_str) },
-					{ option1: questionsAskedTotal.map((question) => question.option1) },
-					{ option2: questionsAskedTotal.map((question) => question.option2) },
-				],
-			],
-		},
-	});
-
-	console.log("length: ", savedQuestions.length);
 
 	const questionObject = {
-		question_str: savedQuestion.question_str,
-		type: savedQuestion.type,
-		option1: savedQuestion.option1,
-		option2: savedQuestion.option2,
-		option3: savedQuestion.option3,
-		option4: savedQuestion.option4,
-		template: savedQuestion.template,
-		answer: savedQuestion.answer,
+		question_str: savedQuestionUnique.question_str,
+		type: savedQuestionUnique.type,
+		option1: savedQuestionUnique.option1,
+		option2: savedQuestionUnique.option2,
+		option3: savedQuestionUnique.option3,
+		option4: savedQuestionUnique.option4,
+		template: savedQuestionUnique.template,
+		answer: savedQuestionUnique.answer,
 	};
 
 	res.json(questionObject);
