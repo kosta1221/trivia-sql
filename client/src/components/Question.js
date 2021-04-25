@@ -68,6 +68,8 @@ function Question({
 			console.log("TIMES UP!!");
 			setCurrentlyDisplayed("rating");
 			setLives(lives - 1);
+
+			setQuestionsAskedTotal((prevQuestionsAskedTotal) => [...prevQuestionsAskedTotal, data]);
 		}
 	}, [progress]);
 
@@ -77,7 +79,11 @@ function Question({
 		console.log(isUserAnswerCorrect);
 		setCurrentlyDisplayed("rating");
 
-		setQuestionsAskedTotal((prevQuestionsAskedTotal) => prevQuestionsAskedTotal + 1);
+		setQuestionsAskedTotal((prevQuestionsAskedTotal) => [
+			...prevQuestionsAskedTotal,
+			{ question_str: data.question_str, option1: data.option1, option2: data.option2 },
+		]);
+
 		if (!isUserAnswerCorrect) {
 			setLives(lives - 1);
 		} else {

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Rating({ question, setCurrentlyDisplayed, refetch, setQuestionsAskedTotal }) {
+function Rating({ question, setCurrentlyDisplayed, refetch }) {
 	const classes = useStyles();
 
 	const [fullStars, setFullStars] = useState(0);

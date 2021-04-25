@@ -52,14 +52,14 @@ const useStyles = makeStyles((theme) => ({
 function Game() {
 	const classes = useStyles();
 
-	const [questionsAskedTotal, setQuestionsAskedTotal] = useState(0);
+	const [questionsAskedTotal, setQuestionsAskedTotal] = useState([]);
 
 	const [{ data, loading, error }, refetch] = useAxios(
 		{
-			method: "GET",
+			method: "PUT",
 			url: `${URL}/fetch-question`,
 			headers: { "Content-Type": "application/json" },
-			params: { questionsAskedTotal },
+			data: { questionsAskedTotal },
 		},
 		{ manual: true }
 	);
@@ -121,12 +121,7 @@ function Game() {
 					/>
 				)}
 				{currentlyDisplayed === "rating" && (
-					<Rating
-						question={data}
-						setCurrentlyDisplayed={setCurrentlyDisplayed}
-						refetch={refetch}
-						setQuestionsAskedTotal={setQuestionsAskedTotal}
-					/>
+					<Rating question={data} setCurrentlyDisplayed={setCurrentlyDisplayed} refetch={refetch} />
 				)}
 				{currentlyDisplayed === "game_over" && (
 					<GameOver

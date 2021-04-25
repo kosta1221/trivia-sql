@@ -39,7 +39,7 @@ function GameOver({
 
 	useEffect(() => {
 		setCorrectQuestionsAnswered(0);
-		setQuestionsAskedTotal(0);
+		setQuestionsAskedTotal([]);
 	}, []);
 
 	const handlePlayAgain = async (event) => {
