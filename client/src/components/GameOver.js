@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
 
+import { URL, savePlayer } from "../utils";
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		height: "100%",
@@ -33,7 +35,9 @@ function GameOver({
 	setLives,
 	setCorrectQuestionsAnswered,
 	setQuestionsAskedTotal,
+	score,
 	setScore,
+	playerName,
 }) {
 	const classes = useStyles();
 
@@ -42,9 +46,27 @@ function GameOver({
 		setQuestionsAskedTotal([]);
 	}, []);
 
+	const handleMainMenu = async (event) => {
+		const playerToSave = {
+			name: playerName,
+			score: score,
+			avatar_id: 1,
+		};
+
+		savePlayer(playerToSave);
+	};
+
 	const handlePlayAgain = async (event) => {
 		setLives(3);
-		setScore(0);
+
+		const playerToSave = {
+			name: playerName,
+			score: score,
+			avatar_id: 1,
+		};
+
+		savePlayer(playerToSave);
+
 		try {
 			await refetch();
 		} catch (error) {
@@ -52,6 +74,7 @@ function GameOver({
 		}
 
 		setCurrentlyDisplayed("question");
+		setScore(0);
 	};
 
 	return (
@@ -67,7 +90,12 @@ function GameOver({
 					Play Again
 				</Button>
 				<Link className={classes.linkWithButton} exact to="/">
-					<Button className={classes.optionButton} variant="outlined" color="primary">
+					<Button
+						onClick={handleMainMenu}
+						className={classes.optionButton}
+						variant="outlined"
+						color="primary"
+					>
 						Main Menu
 					</Button>
 				</Link>

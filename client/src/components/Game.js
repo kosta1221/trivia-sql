@@ -69,7 +69,6 @@ function Game({ playerName }) {
 		refetch();
 	}, []);
 
-	console.log(data);
 	console.log("questions asked state: ", questionsAskedTotal);
 
 	const [currentlyDisplayed, setCurrentlyDisplayed] = useState("question");
@@ -130,7 +129,9 @@ function Game({ playerName }) {
 						setLives={setLives}
 						setCorrectQuestionsAnswered={setCorrectQuestionsAnswered}
 						setQuestionsAskedTotal={setQuestionsAskedTotal}
+						score={score}
 						setScore={setScore}
+						playerName={playerName}
 					/>
 				)}
 			</Paper>
