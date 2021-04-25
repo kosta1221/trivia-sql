@@ -26,11 +26,12 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	table: {
 		minWidth: 700,
+		backgroundColor: theme.palette.paperBackground,
 	},
-});
+}));
 
 export default function LeaderboardsTable({ data }) {
 	const classes = useStyles();

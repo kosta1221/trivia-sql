@@ -9,7 +9,10 @@ const useStyles = makeStyles((theme) => ({
 		display: `flex`,
 		justifyContent: `space-around`,
 		flexDirection: "column",
-		width: "60vmax",
+		width: "70vmax",
+	},
+	questionString: {
+		margin: 0,
 	},
 	questionOptions: {
 		display: `flex`,
@@ -100,7 +103,7 @@ function Question({
 	return (
 		<div className={classes.question}>
 			<LinearProgressWithLabel value={progress} remainingQuestionTime={remainingQuestionTime} />
-			{data && data.question_str}
+			{data && <h1 className={classes.questionString}>{data.question_str}</h1>}
 			{data && (
 				<div className={classes.questionOptions}>
 					<div className={classes.questionOptionsInner}>

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: `center`,
 		flexDirection: "column",
 		alignItems: "center",
-		width: "60vmax",
+		width: "70vmax",
 	},
 	optionButton: {
 		textTransform: "none",

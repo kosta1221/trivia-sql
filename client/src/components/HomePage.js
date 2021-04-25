@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 		display: `flex`,
 		justifyContent: `center`,
 		flexDirection: "column",
-		width: "40vmax",
+		width: "50vmax",
 	},
 	mainButton: {
 		margin: "1vh",
@@ -25,7 +25,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	textField: {
 		margin: theme.spacing(1),
-		width: "40vmax",
+		width: "50vmax",
+	},
+	mainHeader: {
+		fontSize: "4rem",
+		marginBottom: "10vmax",
 	},
 }));
 
@@ -46,6 +50,7 @@ function HomePage({ playerName, setPlayerName }) {
 	};
 	return (
 		<div className={classes.buttonsFlex}>
+			<h1 className={classes.mainHeader}>Countrivia!</h1>
 			<TextField
 				onChange={handleInputChange}
 				className={classes.textField}

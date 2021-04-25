@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 		display: `flex`,
 		justifyContent: `space-evenly`,
 		flexDirection: "column",
-		width: "60vmax",
+		width: "70vmax",
 	},
 	star: {
 		fill: "#d4af37",

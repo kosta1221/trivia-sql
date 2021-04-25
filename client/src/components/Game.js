@@ -13,12 +13,13 @@ import GameOver from "./GameOver";
 const useStyles = makeStyles((theme) => ({
 	root: {
 		marginTop: `15vh`,
-		height: `65vh`,
+		height: `75vh`,
 		display: `flex`,
 		justifyContent: `center`,
 	},
 	paper: {
 		position: "relative",
+		backgroundColor: theme.palette.paperBackground,
 	},
 	heartsContainer: {
 		position: "absolute",
@@ -46,6 +47,12 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "1.5rem",
 		paddingBottom: "0.2rem",
 		paddingRight: "0.5rem",
+	},
+	middle: {
+		position: "fixed",
+		top: "50%",
+		left: "50%",
+		transform: "translate(-50%, -50%)",
 	},
 }));
 
@@ -84,10 +91,10 @@ function Game({ playerName, match }) {
 	}, [lives]);
 
 	if (loading) {
-		return <h1>LOADING...</h1>;
+		return <h1 className={classes.middle}>LOADING...</h1>;
 	}
 	if (error) {
-		return <h1>ERROR!</h1>;
+		return <h1 className={classes.middle}>ERROR!</h1>;
 	}
 
 	const hearts = [true, true, true];
