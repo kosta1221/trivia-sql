@@ -105,7 +105,7 @@ function GameOver({
 				>
 					Play Again
 				</Button>
-				<Link className={classes.linkWithButton} exact to="/">
+				<Link className={classes.linkWithButton} exact to="/home">
 					<Button
 						onClick={handleMainMenu}
 						className={classes.optionButton}

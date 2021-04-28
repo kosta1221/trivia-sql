@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
 
 import { useRouter } from "./useRouter";
 
@@ -46,22 +45,11 @@ function HomePage({ playerName, setPlayerName, avatars }) {
 		router.push(`/game/${playerName}`);
 	};
 
-	const handleInputChange = (e) => {
-		setPlayerName(e.target.value);
-	};
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
 			<AvatarGrid avatars={avatars} />
-			<TextField
-				onChange={handleInputChange}
-				className={classes.textField}
-				error={playerName === "" ? true : false}
-				id="standard-error"
-				label="Name"
-				placeholder="Enter your name..."
-				defaultValue={playerName}
-			/>
+
 			<Button
 				onClick={handleStartClick}
 				className={classes.mainButton}
