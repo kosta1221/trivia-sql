@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const authorization = require("../middlewares/authorization");
 
 const generate = Router();
 
@@ -15,7 +16,7 @@ const {
 } = require("../../models");
 const Op = Sequelize.Op;
 
-generate.get("/", async (req, res, next) => {
+generate.get("/", authorization, async (req, res, next) => {
 	sequelize.options.logging = false;
 
 	const template = await findRandomQuestionTemplate();

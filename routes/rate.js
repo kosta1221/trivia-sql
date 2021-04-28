@@ -1,11 +1,12 @@
 const { Router } = require("express");
+const authorization = require("../middlewares/authorization");
 
 const rate = Router();
 
 const { Sequelize, SavedQuestion } = require("../models");
 const Op = Sequelize.Op;
 
-rate.post("/", async (req, res, next) => {
+rate.post("/", authorization, async (req, res, next) => {
 	console.log("hi");
 	console.log(req.body);
 	const ratedQuestion = req.body;

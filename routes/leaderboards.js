@@ -1,11 +1,12 @@
 const { Router } = require("express");
+const authorization = require("../middlewares/authorization");
 
 const leaderboards = Router();
 
 const { Sequelize, Player } = require("../models");
 const Op = Sequelize.Op;
 
-leaderboards.get("/", async (req, res, next) => {
+leaderboards.get("/", authorization, async (req, res, next) => {
 	console.log("trying to fetch leaderboards");
 
 	const players = await Player.findAll({

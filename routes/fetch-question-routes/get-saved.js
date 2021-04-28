@@ -1,11 +1,12 @@
 const { Router } = require("express");
+const authorization = require("../middlewares/authorization");
 
 const getSaved = Router();
 
 const { Sequelize, SavedQuestion } = require("../../models");
 const Op = Sequelize.Op;
 
-getSaved.put("/", async (req, res, next) => {
+getSaved.put("/", authorization, async (req, res, next) => {
 	const { questionsAskedTotal } = req.body;
 
 	const uniqueQuestions =

@@ -4,11 +4,12 @@ const fetchQuestion = Router();
 
 const generate = require("./fetch-question-routes/generate");
 const getSaved = require("./fetch-question-routes/get-saved");
+const authorization = require("../middlewares/authorization");
 
 const { Sequelize, SavedQuestion } = require("../models");
 const Op = Sequelize.Op;
 
-fetchQuestion.put("/", async (req, res, next) => {
+fetchQuestion.put("/", authorization, async (req, res, next) => {
 	const { questionsAskedTotal } = req.body;
 
 	const numberOfSavedQuestions = await SavedQuestion.count();
