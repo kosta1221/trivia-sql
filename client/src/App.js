@@ -1,9 +1,10 @@
 import "./styles/App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Game from "./components/Game";
 import HomePage from "./components/HomePage";
+import LandingPage from "./components/LandingPage";
 import Leaderboards from "./components/Leaderboards";
 
 import { URL } from "./utils";
@@ -11,6 +12,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 
 import useAxios from "axios-hooks";
+import Login from "./components/LoginPage";
 
 const initialTheme = createMuiTheme({
 	palette: {
@@ -49,6 +51,7 @@ function App() {
 	const classes = useStyles();
 
 	const [playerName, setPlayerName] = useState("");
+	const [isPlayer, setisPlayer] = useState(false);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -58,6 +61,18 @@ function App() {
 						<Route
 							exact
 							path="/"
+							render={(props) => <LandingPage isPlayer={isPlayer} {...props} />}
+						/>
+						<Route
+							exact
+							path="/login"
+							render={(props) => (
+								<Login playerName={playerName} setPlayerName={setPlayerName} {...props} />
+							)}
+						/>
+						<Route
+							exact
+							path="/home"
 							render={(props) => (
 								<HomePage
 									playerName={playerName}
