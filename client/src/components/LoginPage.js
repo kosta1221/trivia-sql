@@ -3,6 +3,10 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useRouter } from "./useRouter";
+
+import { AUTH_URL } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -33,10 +37,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Login({ playerName, setPlayerName }) {
+function Login({ playerName, setPlayerName, accessToken, setAccessToken }) {
 	const classes = useStyles();
+	const router = useRouter();
+	const [error, setError] = useState({ isError: false, message: null });
+	console.log(error);
 
-	const onFormSubmit = (event) => {
+	const onFormSubmit = async (event) => {
 		event.preventDefault();
 
 		const formData = new FormData(event.target);
@@ -45,11 +52,31 @@ function Login({ playerName, setPlayerName }) {
 		formData.forEach((value, property) => (body[property] = value));
 
 		setPlayerName(() => body.playerName);
+
+		try {
+			const response = await axios({
+				method: "POST",
+				url: `${AUTH_URL}/login`,
+				headers: { "Content-Type": "application/json" },
+				data: body,
+			});
+
+			if (response.status === 200) {
+				setAccessToken(() => response.data.accessToken);
+				router.push("/home");
+			} else {
+				setError(() => ({ isError: true, message: "bad attempt to login" }));
+			}
+		} catch (err) {
+			console.log(err.response.data);
+			setError(() => ({ isError: true, message: err.response.data }));
+		}
 	};
 
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
+			{error && <h1>{error.message}</h1>}
 			<form id="login-form" onSubmit={onFormSubmit}>
 				<TextField
 					autoFocus

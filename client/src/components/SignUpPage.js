@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useRouter } from "./useRouter";
 
-import { URL } from "../utils";
+import { AUTH_URL } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -42,7 +42,7 @@ function SignUpPage() {
 	const router = useRouter();
 
 	const [arePasswordsSame, setArePasswordsSame] = useState(true);
-	const [error, setError] = useState(false);
+	const [error, setError] = useState({ isError: false, message: null });
 
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
@@ -62,7 +62,7 @@ function SignUpPage() {
 		try {
 			const response = await axios({
 				method: "POST",
-				url: `${URL}/signup`,
+				url: `${AUTH_URL}/signup`,
 				headers: { "Content-Type": "application/json" },
 				data: body,
 			});
@@ -70,10 +70,11 @@ function SignUpPage() {
 			if (response.status === 201) {
 				router.push("/login");
 			} else {
-				setError(() => true);
+				setError(() => ({ isError: true, message: "bad attempt to signup!" }));
 			}
-		} catch (error) {
-			setError(() => true);
+		} catch (err) {
+			console.log(err.response.data);
+			setError(() => ({ isError: true, message: err.response.data }));
 		}
 	};
 
@@ -81,7 +82,7 @@ function SignUpPage() {
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
 			{!arePasswordsSame && <h2>Passwords have to match up!</h2>}
-			{error && <h1>Error</h1>}
+			{error && <h1>{error.message}</h1>}
 			<form id="signup-form" onSubmit={onFormSubmit}>
 				<TextField
 					autoFocus

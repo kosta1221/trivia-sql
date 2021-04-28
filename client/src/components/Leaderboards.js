@@ -22,7 +22,7 @@ function Leaderboards() {
 		return <h1>LOADING...</h1>;
 	}
 	if (error) {
-		return <h1>ERROR!</h1>;
+		return <h1>{`ERROR! ${error.response.data}`}</h1>;
 	}
 
 	return (

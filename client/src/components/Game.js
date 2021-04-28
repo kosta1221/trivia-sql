@@ -93,7 +93,7 @@ function Game({ playerName, match }) {
 		return <h1 className={classes.middle}>LOADING...</h1>;
 	}
 	if (error) {
-		return <h1 className={classes.middle}>ERROR!</h1>;
+		return <h1 className={classes.middle}>{`ERROR! ${error.response.data}`}</h1>;
 	}
 
 	const hearts = [true, true, true];
