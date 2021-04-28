@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Login({ playerName, setPlayerName }) {
+function SignUpPage() {
 	const classes = useStyles();
 
 	const onFormSubmit = (event) => {
@@ -43,54 +43,58 @@ function Login({ playerName, setPlayerName }) {
 
 		const body = {};
 		formData.forEach((value, property) => (body[property] = value));
-
-		setPlayerName(() => body.playerName);
 	};
 
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
-			<form id="login-form" onSubmit={onFormSubmit}>
+			<form id="signup-form" onSubmit={onFormSubmit}>
 				<TextField
 					autoFocus
 					className={classes.textField}
-					error={playerName === "" ? true : false}
 					id="name-input"
 					name="playerName"
 					label="Name"
 					type="text"
 					placeholder="Enter your name..."
-					defaultValue={playerName}
 					required
 				/>
 				<TextField
 					type="password"
 					className={classes.textField}
-					error={playerName === "" ? true : false}
 					id="password-input"
 					name="password"
 					label="Password"
 					placeholder="Enter your password..."
 					required
 				/>
+				<TextField
+					type="password"
+					className={classes.textField}
+					id="password-input-2"
+					name="password"
+					label="Confirm Password"
+					placeholder="Confirm your password..."
+					required
+				/>
 				<Button
 					className={classes.mainButton}
 					type="submit"
-					form="login-form"
+					form="signup-form"
 					label="Submit"
 					variant="outlined"
 					color="primary"
 				>
-					Login
+					Sign Up
 				</Button>
 			</form>
-			<Link className={classes.linkWithButton} exact to="/signup">
+			<Link className={classes.linkWithButton} exact to="/login">
 				<Button className={classes.mainButton} variant="outlined" color="primary">
-					Sign Up
+					Back To Login
 				</Button>
 			</Link>
 		</div>
 	);
 }
 
-export default Login;
+export default SignUpPage;

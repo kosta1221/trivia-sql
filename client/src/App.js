@@ -13,6 +13,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 
 import useAxios from "axios-hooks";
 import Login from "./components/LoginPage";
+import SignUpPage from "./components/SignUpPage";
 
 const initialTheme = createMuiTheme({
 	palette: {
@@ -51,13 +52,14 @@ function App() {
 	const classes = useStyles();
 
 	const [playerName, setPlayerName] = useState("");
-	const [isPlayer, setisPlayer] = useState(false);
+	const [isPlayer, setIsPlayer] = useState(false);
 
 	return (
 		<ThemeProvider theme={theme}>
 			<div className={`App ${classes.root}`}>
 				<BrowserRouter>
 					<Switch>
+						<Route exact path="/signup" render={(props) => <SignUpPage {...props} />} />
 						<Route
 							exact
 							path="/"
