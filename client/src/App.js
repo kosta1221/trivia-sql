@@ -12,6 +12,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 
 import useAxios from "axios-hooks";
+import axios from "axios";
 import Login from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
 
@@ -51,8 +52,18 @@ function App() {
 
 	const classes = useStyles();
 
+	const [accessToken, setAccessToken] = useState(null);
+	console.log("token: ", accessToken);
 	const [playerName, setPlayerName] = useState("");
 	const [isPlayer, setIsPlayer] = useState(false);
+
+	useEffect(() => {
+		if (accessToken) {
+			axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+		} else {
+			axios.defaults.headers.common["Authorization"] = null;
+		}
+	}, [accessToken]);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -69,7 +80,13 @@ function App() {
 							exact
 							path="/login"
 							render={(props) => (
-								<Login playerName={playerName} setPlayerName={setPlayerName} {...props} />
+								<Login
+									accessToken={accessToken}
+									setAccessToken={setAccessToken}
+									playerName={playerName}
+									setPlayerName={setPlayerName}
+									{...props}
+								/>
 							)}
 						/>
 						<Route
