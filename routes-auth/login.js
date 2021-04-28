@@ -8,29 +8,38 @@ const { Player, RefreshToken } = require("../models");
 
 login.post("/", async (req, res, next) => {
 	const { playerName, password } = req.body;
-	console.log("trying to log player in");
+	console.log("trying to log player in", playerName);
 
 	try {
 		const player = await Player.findOne({
 			where: {
-				name: playerName,
+				id: playerName,
 			},
 		});
 
 		if (!player) {
-			return res.status(400).send("Cannot find a player with that name");
+			return res.status(401).send("Incorrect username or password");
 		}
 
 		const isAllowed = await bcrypt.compare(password, player.password);
 
 		if (!isAllowed) {
-			return res.status(401).send("not allowed!");
+			return res.status(401).send("Incorrect username or password");
 		}
 
-		const accessToken = jwt.sign(player, process.env.ACCESS_TOKEN_SECRET, { expriresIn: "20s" });
+		console.log("SECRET:", process.env.ACCESS_TOKEN_SECRET);
+		console.log("PLAYER:", player.toJSON());
+
+		const payload = {
+			name: player.toJSON().id,
+		};
+
+		const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+			expiresIn: "15m",
+		});
 
 		const refreshToken = {
-			refresh_token: jwt.sign(player, process.env.REFRESH_TOKEN_SECRET),
+			refresh_token: jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET),
 			expires: new Date(Date.now() + 31540000000),
 		};
 

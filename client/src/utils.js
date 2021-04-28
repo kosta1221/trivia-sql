@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const URL = `/api`;
+export const AUTH_URL = `/auth`;
 
 export const savePlayer = (playerToSave) => {
 	console.log("trying to save player");
