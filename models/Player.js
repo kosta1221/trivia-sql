@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Player.init(
 		{
-			name: DataTypes.STRING,
+			id: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+			},
+			password: DataTypes.STRING,
 			score: DataTypes.INTEGER,
 			avatar_id: DataTypes.INTEGER,
 		},

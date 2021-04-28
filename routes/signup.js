@@ -12,11 +12,12 @@ signup.post("/", async (req, res, next) => {
 	console.log(hashedPassword);
 
 	const playerToSave = {
-		playerName,
+		id: playerName,
 		password: hashedPassword,
 		avatar_id: null,
 		score: null,
 	};
+	console.log("player signing up: ", playerToSave);
 
 	try {
 		await Player.create(playerToSave);

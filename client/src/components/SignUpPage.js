@@ -3,6 +3,10 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useRouter } from "./useRouter";
+
+import { URL } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -35,19 +39,49 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUpPage() {
 	const classes = useStyles();
+	const router = useRouter();
 
-	const onFormSubmit = (event) => {
+	const [arePasswordsSame, setArePasswordsSame] = useState(true);
+	const [error, setError] = useState(false);
+
+	const onFormSubmit = async (event) => {
 		event.preventDefault();
 
 		const formData = new FormData(event.target);
 
 		const body = {};
 		formData.forEach((value, property) => (body[property] = value));
+
+		if (body.password !== body.passwordConfirmation) {
+			setArePasswordsSame(() => false);
+			return;
+		} else {
+			setArePasswordsSame(() => true);
+		}
+
+		try {
+			const response = await axios({
+				method: "POST",
+				url: `${URL}/signup`,
+				headers: { "Content-Type": "application/json" },
+				data: body,
+			});
+
+			if (response.status === 201) {
+				router.push("/login");
+			} else {
+				setError(() => true);
+			}
+		} catch (error) {
+			setError(() => true);
+		}
 	};
 
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
+			{!arePasswordsSame && <h2>Passwords have to match up!</h2>}
+			{error && <h1>Error</h1>}
 			<form id="signup-form" onSubmit={onFormSubmit}>
 				<TextField
 					autoFocus
@@ -72,7 +106,7 @@ function SignUpPage() {
 					type="password"
 					className={classes.textField}
 					id="password-input-2"
-					name="password"
+					name="passwordConfirmation"
 					label="Confirm Password"
 					placeholder="Confirm your password..."
 					required
