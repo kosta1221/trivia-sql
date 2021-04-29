@@ -18,22 +18,22 @@ accessTokenGenerate.post("/", async (req, res, next) => {
 			},
 		});
 
-		if (!foundRefreshToken || Date.now() > foundRefreshToken.expires.getTime()) {
+		if (!foundRefreshToken) {
+			return res.sendStatus(401);
+		}
+
+		if (Date.now() > foundRefreshToken.expires.getTime()) {
 			return res.sendStatus(401);
 		}
 
 		jwt.verify(foundRefreshToken.refresh_token, process.env.REFRESH_TOKEN_SECRET, (err, player) => {
 			if (err) return res.sendStatus(403);
 
-			const accessToken = jwt.sign(
-				{ playerName: player.playerName },
-				process.env.ACCESS_TOKEN_SECRET,
-				{ expriresIn: "20s" }
-			);
-			res.json({ accessToken: accessToken });
+			const accessToken = jwt.sign({ name: player.name }, process.env.ACCESS_TOKEN_SECRET, {
+				expiresIn: "20s",
+			});
+			res.json({ accessToken: accessToken, playerName: player.name });
 		});
-
-		res.status(201).send("success");
 	} catch (error) {
 		next(error);
 	}

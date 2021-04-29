@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function HomePage({ playerName, setPlayerName, avatars }) {
+function HomePage({ playerName, avatars }) {
 	const classes = useStyles();
 
 	const router = useRouter();

@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   RefreshToken.init({
-    refresh_token: DataTypes.STRING
+    refresh_token: DataTypes.STRING,
+    expires: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'RefreshToken',

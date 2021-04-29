@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -37,11 +37,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Login({ playerName, setPlayerName, accessToken, setAccessToken }) {
+function LoginPage({ playerName, setPlayerName, setAccessToken, setRefreshToken, isPlayer }) {
 	const classes = useStyles();
 	const router = useRouter();
 	const [error, setError] = useState({ isError: false, message: null });
-	console.log(error);
 
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
@@ -63,6 +62,7 @@ function Login({ playerName, setPlayerName, accessToken, setAccessToken }) {
 
 			if (response.status === 200) {
 				setAccessToken(() => response.data.accessToken);
+				setRefreshToken(() => response.data.refreshToken);
 				router.push("/home");
 			} else {
 				setError(() => ({ isError: true, message: "bad attempt to login" }));
@@ -120,4 +120,4 @@ function Login({ playerName, setPlayerName, accessToken, setAccessToken }) {
 	);
 }
 
-export default Login;
+export default LoginPage;
