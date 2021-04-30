@@ -73,6 +73,7 @@ function GameOver({
 
 	const handlePlayAgain = async (event) => {
 		setLives(3);
+		setScore(0);
 
 		const playerToSave = {
 			name: playerNameParam,
@@ -84,12 +85,10 @@ function GameOver({
 
 		try {
 			await refetch();
+			setCurrentlyDisplayed("question");
 		} catch (error) {
 			console.log(error);
 		}
-
-		setCurrentlyDisplayed("question");
-		setScore(0);
 	};
 
 	return (

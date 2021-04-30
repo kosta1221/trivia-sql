@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
 
-import useAxios from "axios-hooks";
 import LeaderboardsTable from "./LeaderboardsTable";
+
+import useAxios, { configure } from "axios-hooks";
+import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
 
 import { URL } from "../utils";
 
 function Leaderboards() {
+	configure({ axios: axiosInterceptorInstance });
+
 	const [{ data, loading, error }, refetch] = useAxios({
 		method: "GET",
 		url: `${URL}/leaderboards`,

@@ -12,7 +12,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 
 import useAxios from "axios-hooks";
-import axios from "axios";
+import { axiosInterceptorInstance } from "./interceptors/axiosInterceptors";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
 
@@ -46,7 +46,6 @@ function App() {
 	const [refreshToken, setRefreshToken] = useState(
 		JSON.parse(localStorage.getItem("refreshToken"))
 	);
-	const [accessToken, setAccessToken] = useState(null);
 	const [playerName, setPlayerName] = useState("");
 	const [isPlayer, setIsPlayer] = useState(false);
 	const [theme, setTheme] = useState(initialTheme);
@@ -84,20 +83,11 @@ function App() {
 
 	useEffect(() => {
 		if (accessTokenFetch) {
-			setAccessToken(() => accessTokenFetch.accessToken);
 			setPlayerName(() => accessTokenFetch.playerName);
-		}
-	}, [accessTokenFetch]);
-
-	useEffect(() => {
-		if (accessToken) {
-			axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 			console.log("setting player to true...");
 			setIsPlayer(() => true);
-		} else {
-			axios.defaults.headers.common["Authorization"] = null;
 		}
-	}, [accessToken]);
+	}, [accessTokenFetch]);
 
 	useEffect(() => {
 		localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
@@ -121,7 +111,12 @@ function App() {
 		return <h1 className={classes.middle}>{`ERROR! ${avatarsError.response.data}`}</h1>;
 	}
 
-	console.log("access token: ", accessToken);
+	if (accessTokenFetch && !accessTokenLoading) {
+		axiosInterceptorInstance.defaults.headers.common[
+			"Authorization"
+		] = `Bearer ${accessTokenFetch.accessToken}`;
+	}
+
 	console.log("refresh token: ", refreshToken);
 	console.log("player name: ", playerName);
 
@@ -138,7 +133,6 @@ function App() {
 							render={(props) => (
 								<LoginPage
 									setRefreshToken={setRefreshToken}
-									setAccessToken={setAccessToken}
 									playerName={playerName}
 									setPlayerName={setPlayerName}
 									isPlayer={isPlayer}

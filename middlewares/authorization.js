@@ -9,7 +9,9 @@ function authorization(req, res, next) {
 	if (token == null) return res.status(401).send("No access!");
 
 	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, player) => {
-		if (err) return res.sendStatus(403);
+		if (err) {
+			return res.status(403).send("Forbidden!");
+		}
 
 		req.player = player;
 		next();

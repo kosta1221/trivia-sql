@@ -1,13 +1,13 @@
-import axios from "axios";
+import { axiosInterceptorInstance } from "./interceptors/axiosInterceptors";
 
 export const URL = `/api`;
 export const AUTH_URL = `/auth`;
 
 export const savePlayer = (playerToSave) => {
 	console.log("trying to save player");
-	axios({
+	axiosInterceptorInstance({
 		method: "POST",
-		url: `${URL}/save-player`,
+		url: `${URL}/update-player-score`,
 		headers: { "Content-Type": "application/json" },
 		data: playerToSave,
 	})
@@ -20,7 +20,7 @@ export const savePlayer = (playerToSave) => {
 export const checkLeadeboards = async () => {
 	console.log("trying to check leaderboards");
 	try {
-		const response = await axios({
+		const response = await axiosInterceptorInstance({
 			method: "GET",
 			url: `${URL}/leaderboards`,
 			headers: { "Content-Type": "application/json" },

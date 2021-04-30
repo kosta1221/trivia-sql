@@ -1,12 +1,12 @@
 import { IconButton } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import StarOutlineIcon from "@material-ui/icons/StarOutline";
 import StarIcon from "@material-ui/icons/Star";
 
 import { makeStyles } from "@material-ui/core/styles";
 
 import { URL } from "../utils";
-import axios from "axios";
+import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -39,7 +39,7 @@ function Rating({ question, setCurrentlyDisplayed, refetch }) {
 		};
 		console.log(questionWithRating);
 		try {
-			const response = await axios({
+			const response = await axiosInterceptorInstance({
 				method: "POST",
 				url: `${URL}/rate`,
 				headers: { "Content-Type": "application/json" },

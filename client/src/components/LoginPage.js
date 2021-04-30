@@ -8,6 +8,8 @@ import { useRouter } from "./useRouter";
 
 import { AUTH_URL } from "../utils";
 
+import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		height: `100vh`,
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function LoginPage({ playerName, setPlayerName, setAccessToken, setRefreshToken, isPlayer }) {
+function LoginPage({ playerName, setPlayerName, setRefreshToken }) {
 	const classes = useStyles();
 	const router = useRouter();
 	const [error, setError] = useState({ isError: false, message: null });
@@ -61,7 +63,8 @@ function LoginPage({ playerName, setPlayerName, setAccessToken, setRefreshToken,
 			});
 
 			if (response.status === 200) {
-				setAccessToken(() => response.data.accessToken);
+				axiosInterceptorInstance.defaults.headers.common["Authorization"] =
+					"Bearer " + response.data.accessToken;
 				setRefreshToken(() => response.data.refreshToken);
 				router.push("/home");
 			} else {

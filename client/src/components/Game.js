@@ -4,7 +4,8 @@ import Paper from "@material-ui/core/Paper";
 import { URL } from "../utils";
 import HeartIcon from "@material-ui/icons/Favorite";
 
-import useAxios from "axios-hooks";
+import useAxios, { configure } from "axios-hooks";
+import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
 import Question from "./Question";
 import Rating from "./Rating";
 import GameOver from "./GameOver";
@@ -56,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Game({ playerName, match }) {
+	configure({ axios: axiosInterceptorInstance });
 	const classes = useStyles();
 
 	const playerNameParam = match.params.name;
@@ -73,7 +75,15 @@ function Game({ playerName, match }) {
 	);
 
 	useEffect(() => {
-		refetch();
+		console.log("refetch useEffect");
+		let isMounted = true;
+		if (isMounted) {
+			refetch();
+		}
+		return () => {
+			console.log("refetch useEffect cleanup");
+			isMounted = false;
+		};
 	}, []);
 
 	console.log("questions asked state: ", questionsAskedTotal);
