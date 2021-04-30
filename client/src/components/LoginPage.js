@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -111,7 +111,7 @@ function LoginPage({ playerName, setPlayerName, setAccessToken, setRefreshToken,
 					Login
 				</Button>
 			</form>
-			<Link className={classes.linkWithButton} exact to="/signup">
+			<Link className={classes.linkWithButton} to="/signup">
 				<Button className={classes.mainButton} variant="outlined" color="primary">
 					Sign Up
 				</Button>

@@ -21,7 +21,6 @@ function AvatarGrid({ avatars }) {
 		<div className={classes.grid}>
 			{avatars &&
 				avatars.map((avatar, i) => {
-					console.log(`${process.env.PUBLIC_URL}${avatar.img_src}`);
 					return (
 						<Avatar
 							key={`avatar-${i}`}

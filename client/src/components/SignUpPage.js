@@ -123,7 +123,7 @@ function SignUpPage() {
 					Sign Up
 				</Button>
 			</form>
-			<Link className={classes.linkWithButton} exact to="/login">
+			<Link className={classes.linkWithButton} to="/login">
 				<Button className={classes.mainButton} variant="outlined" color="primary">
 					Back To Login
 				</Button>
