@@ -54,7 +54,7 @@ export default function LeaderboardsTable({ data }) {
 								{row.avatar_id}
 							</StyledTableCell>
 							<StyledTableCell align="center">{i + 1}</StyledTableCell>
-							<StyledTableCell align="center">{row.name}</StyledTableCell>
+							<StyledTableCell align="center">{row.id}</StyledTableCell>
 							<StyledTableCell align="center">{row.score}</StyledTableCell>
 						</StyledTableRow>
 					))}
