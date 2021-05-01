@@ -1,2 +1,3 @@
 # trivia-sql
- trivia sql project - Kosta, Moran, Michael, Daniel
+
+trivia sql project - Kosta Kirov & Michael Efraim
