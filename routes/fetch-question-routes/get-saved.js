@@ -66,7 +66,6 @@ getSaved.put("/", authorization, async (req, res, next) => {
 	console.log("random num for question pick: ", random);
 
 	for (const question of uniqueQuestionsChances) {
-		sum += question.chance * 100;
 		console.log(i++);
 
 		if (random >= sum && random <= sum + question.chance * 100) {
@@ -85,6 +84,7 @@ getSaved.put("/", authorization, async (req, res, next) => {
 
 			return res.json(questionObject);
 		}
+		sum += question.chance * 100;
 	}
 });
 
