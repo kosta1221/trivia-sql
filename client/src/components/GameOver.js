@@ -55,6 +55,7 @@ function GameOver({
 						setLeaderboardPlace(i + 1);
 						return false;
 					}
+					setLeaderboardPlace(i + 1);
 					return true;
 				});
 			})
@@ -65,7 +66,6 @@ function GameOver({
 		const playerToSave = {
 			name: playerNameParam,
 			score: score,
-			avatar_id: 1,
 		};
 
 		savePlayer(playerToSave);
@@ -78,7 +78,6 @@ function GameOver({
 		const playerToSave = {
 			name: playerNameParam,
 			score: score,
-			avatar_id: 1,
 		};
 
 		savePlayer(playerToSave);

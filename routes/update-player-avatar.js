@@ -1,18 +1,18 @@
 const { Router } = require("express");
 
-const updatePlayerScore = Router();
+const updatePlayerAvatar = Router();
 
 const { Player } = require("../models");
 
-updatePlayerScore.post("/", async (req, res, next) => {
-	const { name, score } = req.body;
+updatePlayerAvatar.post("/", async (req, res, next) => {
+	const { name, avatar_id } = req.body;
 
-	console.log("saving score for: ", name);
+	console.log("saving avatar for: ", name);
 
 	try {
 		await Player.update(
 			{
-				score: score,
+				avatar_id: avatar_id,
 			},
 			{
 				where: {
@@ -27,4 +27,4 @@ updatePlayerScore.post("/", async (req, res, next) => {
 	}
 });
 
-module.exports = updatePlayerScore;
+module.exports = updatePlayerAvatar;
