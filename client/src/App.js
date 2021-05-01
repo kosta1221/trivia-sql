@@ -151,6 +151,8 @@ function App() {
 									playerName={playerName}
 									setPlayerName={setPlayerName}
 									avatars={avatars}
+									refreshToken={refreshToken}
+									setRefreshToken={setRefreshToken}
 									{...props}
 								/>
 							)}
@@ -160,7 +162,11 @@ function App() {
 							path="/game/:name"
 							render={(props) => <Game {...props} playerName={playerName}></Game>}
 						/>
-						<Route exact path="/leaderboards" render={(props) => <Leaderboards {...props} avatars={avatars} />} />
+						<Route
+							exact
+							path="/leaderboards"
+							render={(props) => <Leaderboards {...props} avatars={avatars} />}
+						/>
 					</Switch>
 				</BrowserRouter>
 			</div>
