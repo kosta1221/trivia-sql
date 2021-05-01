@@ -10,6 +10,11 @@ leaderboards.get("/", authorization, async (req, res, next) => {
 	console.log("trying to fetch leaderboards");
 
 	const players = await Player.findAll({
+		where: {
+			score: {
+				[Op.not]: null,
+			},
+		},
 		order: Sequelize.literal("score DESC"),
 	});
 

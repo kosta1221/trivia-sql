@@ -63,6 +63,14 @@ function HomePage({ playerName, avatars }) {
 					Leaderboards
 				</Button>
 			</Link>
+			<Button
+				onClick={handleStartClick}
+				className={classes.mainButton}
+				variant="contained"
+				color="primary"
+			>
+				Log Out
+			</Button>
 		</div>
 	);
 }

@@ -43,10 +43,10 @@ export default function LeaderboardsTable({ data, avatars }) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center">Avatar id</StyledTableCell>
-            <StyledTableCell align="center">Place</StyledTableCell>
+            <StyledTableCell align="center">Avatar</StyledTableCell>
             <StyledTableCell align="center">Name</StyledTableCell>
             <StyledTableCell align="center">Score</StyledTableCell>
+            <StyledTableCell align="center">Place</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -58,15 +58,15 @@ export default function LeaderboardsTable({ data, avatars }) {
                     style={{ margin: "auto" }}
                     className={classes.avatar}
                     alt="Avatar"
-                    src={`${process.env.PUBLIC_URL}${
+                    src={avatars[row.avatar_id] && `${process.env.PUBLIC_URL}${
                       avatars[row.avatar_id].img_src
                     }`}
                   />
                 }
               </StyledTableCell>
-              <StyledTableCell align="center">{i + 1}</StyledTableCell>
               <StyledTableCell align="center">{row.id}</StyledTableCell>
               <StyledTableCell align="center">{row.score}</StyledTableCell>
+              <StyledTableCell align="center">{i + 1}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
