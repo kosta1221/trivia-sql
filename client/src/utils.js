@@ -30,3 +30,17 @@ export const checkLeadeboards = async () => {
 		throw error;
 	}
 };
+
+export const saveAvatarOfPlayer = (playerToSave) => {
+	console.log("trying to save player avatar");
+	axiosInterceptorInstance({
+		method: "POST",
+		url: `${URL}/update-player-avatar`,
+		headers: { "Content-Type": "application/json" },
+		data: playerToSave,
+	})
+		.then((response) => {
+			console.log(response);
+		})
+		.catch((err) => console.log(err));
+};
