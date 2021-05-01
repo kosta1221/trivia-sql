@@ -48,6 +48,7 @@ function App() {
 	);
 	const [playerName, setPlayerName] = useState("");
 	const [isPlayer, setIsPlayer] = useState(false);
+	const [rememberPlayer, setRememberPlayer] = useState(false);
 	const [theme, setTheme] = useState(initialTheme);
 
 	const [
@@ -136,6 +137,8 @@ function App() {
 									playerName={playerName}
 									setPlayerName={setPlayerName}
 									isPlayer={isPlayer}
+									rememberPlayer={rememberPlayer}
+									setRememberPlayer={setRememberPlayer}
 									{...props}
 								/>
 							)}

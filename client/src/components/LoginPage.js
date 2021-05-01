@@ -56,12 +56,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function LoginPage({ playerName, setPlayerName, setRefreshToken }) {
+function LoginPage({
+	playerName,
+	setPlayerName,
+	setRefreshToken,
+	rememberPlayer,
+	setRememberPlayer,
+}) {
 	const classes = useStyles();
 	const router = useRouter();
 
 	const [error, setError] = useState({ isError: false, message: null });
-	const [rememberPlayer, setRememberPlayer] = useState(false);
 
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
