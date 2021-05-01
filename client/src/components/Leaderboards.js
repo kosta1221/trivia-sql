@@ -1,13 +1,24 @@
 import React, { useEffect } from "react";
-
 import LeaderboardsTable from "./LeaderboardsTable";
-
 import useAxios, { configure } from "axios-hooks";
 import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
-
 import { URL } from "../utils";
+import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-function Leaderboards({avatars}) {
+const useStyles = makeStyles((theme) => ({
+	linkWithButton: {
+		textDecoration: "none",
+	},
+	button: {
+		marginTop: "5vh",
+		width: "35%",
+	},
+}));
+
+function Leaderboards({ avatars }) {
+	const classes = useStyles();
 	configure({ axios: axiosInterceptorInstance });
 
 	const [{ data, loading, error }, refetch] = useAxios({
@@ -33,6 +44,11 @@ function Leaderboards({avatars}) {
 		<div>
 			<h1>Leaderboards:</h1>
 			{data && <LeaderboardsTable data={data} avatars={avatars} />}
+			<Link className={classes.linkWithButton} to="/home">
+				<Button className={classes.button} variant="contained" color="primary">
+					Back to Menu
+				</Button>
+			</Link>
 		</div>
 	);
 }
