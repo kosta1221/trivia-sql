@@ -3,6 +3,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 
+import { saveAvatarOfPlayer } from "../utils";
+
 const useStyles = makeStyles((theme) => ({
 	grid: {
 		display: "grid",
@@ -14,8 +16,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function AvatarGrid({ avatars }) {
+function AvatarGrid({ avatars, playerName }) {
 	const classes = useStyles();
+
+	const handleAvatarClick = async (e) => {
+		const chosenAvatarId = +e.target.parentNode.getAttribute("value");
+		console.log("chosen avatar id: ", chosenAvatarId);
+		await saveAvatarOfPlayer({ name: playerName, avatar_id: chosenAvatarId });
+	};
 
 	return (
 		<div className={classes.grid}>
@@ -24,6 +32,8 @@ function AvatarGrid({ avatars }) {
 					return (
 						<Avatar
 							key={`avatar-${i}`}
+							value={i + 1}
+							onClick={handleAvatarClick}
 							className={classes.avatar}
 							alt="Avatar"
 							src={`${process.env.PUBLIC_URL}${avatar.img_src}`}

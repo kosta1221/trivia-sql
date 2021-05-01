@@ -62,7 +62,7 @@ function HomePage({ playerName, avatars, executeLogout, setRefreshToken, setIsPl
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
-			<AvatarGrid avatars={avatars} />
+			<AvatarGrid playerName={playerName} avatars={avatars} />
 
 			<Button
 				onClick={handleStartClick}

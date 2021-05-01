@@ -59,7 +59,7 @@ export default function LeaderboardsTable({ data, avatars }) {
                     className={classes.avatar}
                     alt="Avatar"
                     src={avatars[row.avatar_id] && `${process.env.PUBLIC_URL}${
-                      avatars[row.avatar_id].img_src
+                      avatars[row.avatar_id - 1].img_src
                     }`}
                   />
                 }
