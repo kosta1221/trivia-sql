@@ -32,8 +32,12 @@ const {
 } = require("./models");
 
 const errorHandler = (error, req, res, next) => {
-	console.error(error);
+	console.error("error name: ", error.name);
 	console.error(error.message);
+
+	if (error.name === "SequelizeUniqueConstraintError") {
+		return res.status(400).send("This name already exists!");
+	}
 
 	next(error);
 };
