@@ -32,6 +32,7 @@ login.post("/", async (req, res, next) => {
 
 		const payload = {
 			name: player.toJSON().id,
+			avatar_id: player.toJSON().avatar_id,
 		};
 
 		const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {

@@ -19,10 +19,12 @@ accessTokenGenerate.post("/", async (req, res, next) => {
 		});
 
 		if (!foundRefreshToken) {
+			console.log("not found");
 			return res.sendStatus(401);
 		}
 
 		if (Date.now() > foundRefreshToken.expires.getTime()) {
+			console.log("expired");
 			return res.sendStatus(401);
 		}
 
@@ -30,9 +32,9 @@ accessTokenGenerate.post("/", async (req, res, next) => {
 			if (err) return res.sendStatus(403);
 
 			const accessToken = jwt.sign({ name: player.name }, process.env.ACCESS_TOKEN_SECRET, {
-				expiresIn: "20s",
+				expiresIn: "15m",
 			});
-			res.json({ accessToken: accessToken, playerName: player.name });
+			res.json({ accessToken: accessToken, playerName: player.name, avatarId: player.avatar_id });
 		});
 	} catch (error) {
 		next(error);

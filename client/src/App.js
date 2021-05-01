@@ -55,6 +55,7 @@ function App() {
 		JSON.parse(localStorage.getItem("refreshToken"))
 	);
 	const [playerName, setPlayerName] = useState("");
+	const [avatarId, setAvatarId] = useState(null);
 	const [isPlayer, setIsPlayer] = useState(false);
 	const [rememberPlayer, setRememberPlayer] = useState(true);
 	const [theme, setTheme] = useState(initialTheme);
@@ -120,6 +121,7 @@ function App() {
 	useEffect(() => {
 		if (accessTokenFetch) {
 			setPlayerName(() => accessTokenFetch.playerName);
+			setAvatarId(() => accessTokenFetch.avatarId);
 			console.log("setting player to true...");
 			setIsPlayer(() => true);
 		}
@@ -161,6 +163,8 @@ function App() {
 	console.log("refresh token: ", refreshToken);
 	console.log("is there a player? ", isPlayer);
 	console.log("player name: ", playerName);
+	console.log(accessTokenFetch);
+	console.log("avatar id: ", avatarId);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -191,6 +195,8 @@ function App() {
 								<HomePage
 									playerName={playerName}
 									setPlayerName={setPlayerName}
+									avatarId={avatarId}
+									setAvatarId={setAvatarId}
 									avatars={avatars}
 									refreshToken={refreshToken}
 									setRefreshToken={setRefreshToken}

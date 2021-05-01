@@ -13,14 +13,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 	avatar: {
 		margin: theme.spacing(1),
+		border: "2px transparent solid",
+	},
+	chosen: {
+		border: "2px blue solid",
 	},
 }));
 
-function AvatarGrid({ avatars, playerName }) {
+function AvatarGrid({ avatars, playerName, avatarId, setAvatarId }) {
 	const classes = useStyles();
 
 	const handleAvatarClick = async (e) => {
 		const chosenAvatarId = +e.target.parentNode.getAttribute("value");
+		setAvatarId(() => chosenAvatarId);
 		console.log("chosen avatar id: ", chosenAvatarId);
 		await saveAvatarOfPlayer({ name: playerName, avatar_id: chosenAvatarId });
 	};
@@ -34,7 +39,9 @@ function AvatarGrid({ avatars, playerName }) {
 							key={`avatar-${i}`}
 							value={i + 1}
 							onClick={handleAvatarClick}
-							className={classes.avatar}
+							className={
+								avatarId === i + 1 ? `${classes.avatar} ${classes.chosen}` : classes.avatar
+							}
 							alt="Avatar"
 							src={`${process.env.PUBLIC_URL}${avatar.img_src}`}
 						/>

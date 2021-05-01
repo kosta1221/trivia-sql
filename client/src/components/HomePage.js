@@ -36,7 +36,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function HomePage({ playerName, avatars, executeLogout, setRefreshToken, setIsPlayer }) {
+function HomePage({
+	playerName,
+	avatars,
+	executeLogout,
+	setRefreshToken,
+	setIsPlayer,
+	avatarId,
+	setAvatarId,
+}) {
 	const classes = useStyles();
 
 	const router = useRouter();
@@ -62,7 +70,12 @@ function HomePage({ playerName, avatars, executeLogout, setRefreshToken, setIsPl
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
-			<AvatarGrid playerName={playerName} avatars={avatars} />
+			<AvatarGrid
+				avatarId={avatarId}
+				setAvatarId={setAvatarId}
+				playerName={playerName}
+				avatars={avatars}
+			/>
 
 			<Button
 				onClick={handleStartClick}
