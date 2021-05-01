@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
 	avatar: {
 		margin: theme.spacing(1),
 		border: "2px transparent solid",
+		"&:hover": {
+			cursor: "pointer",
+		},
 	},
 	chosen: {
 		border: "2px blue solid",
