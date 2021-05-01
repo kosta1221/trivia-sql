@@ -8,6 +8,9 @@ import { useRouter } from "./useRouter";
 
 import { AUTH_URL } from "../utils";
 
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import CheckIcon from "@material-ui/icons/Check";
+
 import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,12 +40,28 @@ const useStyles = makeStyles((theme) => ({
 	linkWithButton: {
 		textDecoration: "none",
 	},
+	toggle: {
+		margin: 0,
+		padding: 0,
+		width: "3vmax",
+		height: "3vmax",
+		marginRight: "2vmax",
+		marginLeft: "1vmax",
+	},
+	flex: {
+		display: "flex",
+		justifyContent: "flex-start",
+		alignItems: "center",
+		height: "5vmax",
+	},
 }));
 
 function LoginPage({ playerName, setPlayerName, setRefreshToken }) {
 	const classes = useStyles();
 	const router = useRouter();
+
 	const [error, setError] = useState({ isError: false, message: null });
+	const [rememberPlayer, setRememberPlayer] = useState(false);
 
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
@@ -103,6 +122,20 @@ function LoginPage({ playerName, setPlayerName, setRefreshToken }) {
 					placeholder="Enter your password..."
 					required
 				/>
+				<div className={classes.flex}>
+					<ToggleButton
+						className={classes.toggle}
+						value="check"
+						size="small"
+						selected={rememberPlayer}
+						onChange={() => {
+							setRememberPlayer((prev) => !prev);
+						}}
+					>
+						{rememberPlayer === true && <span>✔</span>}
+					</ToggleButton>
+					<p>remember me?</p>
+				</div>
 				<Button
 					className={classes.mainButton}
 					type="submit"
