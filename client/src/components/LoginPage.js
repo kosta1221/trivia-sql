@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
 function LoginPage({
 	playerName,
 	setPlayerName,
+	setIsPlayer,
 	setRefreshToken,
 	rememberPlayer,
 	setRememberPlayer,
@@ -77,6 +78,7 @@ function LoginPage({
 		formData.forEach((value, property) => (body[property] = value));
 
 		setPlayerName(() => body.playerName);
+		setIsPlayer(() => true);
 
 		try {
 			const response = await axios({

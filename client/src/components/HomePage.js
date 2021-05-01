@@ -36,28 +36,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function HomePage({ playerName, avatars, refreshToken, setRefreshToken }) {
+function HomePage({ playerName, avatars, executeLogout, setRefreshToken, setIsPlayer }) {
 	const classes = useStyles();
 
 	const router = useRouter();
-
-	const [{ loading: logoutLoading, error: logoutError }, executeLogout] = useAxios(
-		{
-			method: "POST",
-			url: `${AUTH_URL}/logout`,
-			headers: { "Content-Type": "application/json" },
-			data: { refreshToken: refreshToken && refreshToken.refresh_token },
-		},
-		{ manual: true }
-	);
-
-	if (logoutLoading) {
-		return <h1 className={classes.middle}>LOADING...</h1>;
-	}
-
-	if (logoutError) {
-		return <h1 className={classes.middle}>{`ERROR! ${logoutError.response.data}`}</h1>;
-	}
 
 	const handleStartClick = (e) => {
 		if (playerName === "") {
@@ -73,6 +55,7 @@ function HomePage({ playerName, avatars, refreshToken, setRefreshToken }) {
 			console.error(error);
 		}
 		setRefreshToken(() => null);
+		setIsPlayer(() => false);
 		router.push(`/login`);
 	};
 
