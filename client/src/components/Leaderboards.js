@@ -7,7 +7,7 @@ import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
 
 import { URL } from "../utils";
 
-function Leaderboards() {
+function Leaderboards({avatars}) {
 	configure({ axios: axiosInterceptorInstance });
 
 	const [{ data, loading, error }, refetch] = useAxios({
@@ -32,7 +32,7 @@ function Leaderboards() {
 	return (
 		<div>
 			<h1>Leaderboards:</h1>
-			{data && <LeaderboardsTable data={data} />}
+			{data && <LeaderboardsTable data={data} avatars={avatars} />}
 		</div>
 	);
 }

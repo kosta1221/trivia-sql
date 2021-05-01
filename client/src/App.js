@@ -160,7 +160,7 @@ function App() {
 							path="/game/:name"
 							render={(props) => <Game {...props} playerName={playerName}></Game>}
 						/>
-						<Route exact path="/leaderboards" render={(props) => <Leaderboards {...props} />} />
+						<Route exact path="/leaderboards" render={(props) => <Leaderboards {...props} avatars={avatars} />} />
 					</Switch>
 				</BrowserRouter>
 			</div>

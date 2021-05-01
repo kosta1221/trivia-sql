@@ -5,7 +5,9 @@ const updatePlayerScore = Router();
 const { Player } = require("../models");
 
 updatePlayerScore.post("/", async (req, res, next) => {
-	const { name, score } = req.body;
+	const { name, score, avatar_id } = req.body;
+
+	console.log(req.body);
 
 	console.log("saving score for: ", name);
 
@@ -13,6 +15,7 @@ updatePlayerScore.post("/", async (req, res, next) => {
 		await Player.update(
 			{
 				score: score,
+				avatar_id: avatar_id,
 			},
 			{
 				where: {
