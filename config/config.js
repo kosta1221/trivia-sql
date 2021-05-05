@@ -1,29 +1,50 @@
 require("dotenv").config();
-const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_PASSWORD_CLOUD = process.env.DB_PASSWORD_CLOUD;
+const DB_HOST = process.env.DB_HOST;
+const INSTANCE_CONNECTION_NAME = process.env.INSTANCE_CONNECTION_NAME;
+console.log("host is: ", DB_HOST);
 
 module.exports = {
 	development: {
-		username: "root",
-		password: DB_PASSWORD,
-		database: "trivia",
-		host: "127.0.0.1",
+		username: "countrivia-user",
+		password: DB_PASSWORD_CLOUD,
+		database: "countrivia",
+		host: DB_HOST,
+		port: 3306,
 		dialect: "mysql",
 		define: {
 			underscored: true,
 		},
+		dialectOptions: {
+			socketPath: `/cloudsql/${INSTANCE_CONNECTION_NAME}`,
+		},
 	},
 	test: {
-		username: "root",
-		password: null,
-		database: "database_test",
-		host: "127.0.0.1",
+		username: "countrivia-user",
+		password: DB_PASSWORD_CLOUD,
+		database: "countrivia",
+		host: DB_HOST,
 		dialect: "mysql",
+		port: 3306,
+		define: {
+			underscored: true,
+		},
+		dialectOptions: {
+			socketPath: `/cloudsql/${INSTANCE_CONNECTION_NAME}`,
+		},
 	},
 	production: {
-		username: "root",
-		password: null,
-		database: "database_production",
-		host: "127.0.0.1",
+		username: "countrivia-user",
+		password: DB_PASSWORD_CLOUD,
+		database: "countrivia",
+		host: DB_HOST,
 		dialect: "mysql",
+		port: 3306,
+		define: {
+			underscored: true,
+		},
+		dialectOptions: {
+			socketPath: `/cloudsql/${INSTANCE_CONNECTION_NAME}`,
+		},
 	},
 };
