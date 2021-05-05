@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -7,8 +7,11 @@ import { useRouter } from "./useRouter";
 import { Link } from "react-router-dom";
 import AvatarGrid from "./AvatarGrid";
 
-import { AUTH_URL } from "../utils";
-import useAxios from "axios-hooks";
+import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
+import { URL } from "../utils";
+import { makeUseAxios } from "axios-hooks";
+
+const useAxiosInterceptor = makeUseAxios({ axios: axiosInterceptorInstance });
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -38,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 function HomePage({
 	playerName,
+	accessTokenLoading,
 	avatars,
 	executeLogout,
 	setRefreshToken,
@@ -48,6 +52,21 @@ function HomePage({
 	const classes = useStyles();
 
 	const router = useRouter();
+	const [
+		{ data: playerInfo, error: playerInfoError },
+		executePlayerInfoFetch,
+	] = useAxiosInterceptor({
+		method: "GET",
+		url: `${URL}/player-info/${playerName}`,
+		headers: { "Content-Type": "application/json" },
+	});
+
+	useEffect(() => {
+		if (playerInfo && !accessTokenLoading) {
+			console.log("player info:", playerInfo);
+			setAvatarId(() => playerInfo.avatar_id);
+		}
+	}, [playerInfo]);
 
 	const handleStartClick = (e) => {
 		if (playerName === "") {
@@ -66,6 +85,10 @@ function HomePage({
 		setIsPlayer(() => false);
 		router.push(`/login`);
 	};
+
+	if (playerInfoError) {
+		console.log(playerInfoError.response.data);
+	}
 
 	return (
 		<div className={classes.buttonsFlex}>
