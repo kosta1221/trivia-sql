@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -6,6 +6,7 @@ import { useRouter } from "./useRouter";
 
 import { Link } from "react-router-dom";
 import AvatarGrid from "./AvatarGrid";
+import ThemePickerDialog from "./ThemePickerDialog";
 
 import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
 import { URL } from "../utils";
@@ -48,10 +49,15 @@ function HomePage({
 	setIsPlayer,
 	avatarId,
 	setAvatarId,
+	theme,
+	setTheme,
 }) {
 	const classes = useStyles();
 
 	const router = useRouter();
+
+	const [themePickerDialogOpen, setThemePickerDialogOpen] = useState(false);
+
 	const [
 		{ data: playerInfo, error: playerInfoError },
 		executePlayerInfoFetch,
@@ -73,6 +79,15 @@ function HomePage({
 			return;
 		}
 		router.push(`/game/${playerName}`);
+	};
+
+	const handleThemeDialogOpenClick = (e) => {
+		setThemePickerDialogOpen(true);
+	};
+
+	const handleClose = (theme) => {
+		setThemePickerDialogOpen(false);
+		// setTheme(theme);
 	};
 
 	const handleLogoutClick = async (e) => {
@@ -114,6 +129,14 @@ function HomePage({
 				</Button>
 			</Link>
 			<Button
+				onClick={handleThemeDialogOpenClick}
+				className={classes.mainButton}
+				variant="contained"
+				color="primary"
+			>
+				Change Theme
+			</Button>
+			<Button
 				onClick={handleLogoutClick}
 				className={classes.mainButton}
 				variant="contained"
@@ -121,6 +144,7 @@ function HomePage({
 			>
 				Log Out
 			</Button>
+			<ThemePickerDialog selectedTheme={theme} open={themePickerDialogOpen} onClose={handleClose} />
 		</div>
 	);
 }

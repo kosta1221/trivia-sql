@@ -202,6 +202,8 @@ function App() {
 									setIsPlayer={setIsPlayer}
 									executeLogout={executeLogout}
 									accessTokenLoading={accessTokenLoading}
+									theme={theme}
+									setTheme={setTheme}
 									{...props}
 								/>
 							)}
