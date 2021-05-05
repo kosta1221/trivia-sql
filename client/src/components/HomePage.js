@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "4rem",
 		marginBottom: "10vmax",
 	},
+	linkWithButton: {
+		textDecoration: "none",
+	},
 }));
 
 function HomePage({
@@ -85,9 +88,9 @@ function HomePage({
 		setThemePickerDialogOpen(true);
 	};
 
-	const handleClose = (theme) => {
+	const onClose = (theme) => {
 		setThemePickerDialogOpen(false);
-		// setTheme(theme);
+		setTheme(theme);
 	};
 
 	const handleLogoutClick = async (e) => {
@@ -123,7 +126,7 @@ function HomePage({
 			>
 				Start Game
 			</Button>
-			<Link to="/leaderboards">
+			<Link className={classes.linkWithButton} to="/leaderboards">
 				<Button className={classes.mainButton} variant="contained" color="primary">
 					Leaderboards
 				</Button>
@@ -144,7 +147,7 @@ function HomePage({
 			>
 				Log Out
 			</Button>
-			<ThemePickerDialog selectedTheme={theme} open={themePickerDialogOpen} onClose={handleClose} />
+			<ThemePickerDialog theme={theme} open={themePickerDialogOpen} onClose={onClose} />
 		</div>
 	);
 }
