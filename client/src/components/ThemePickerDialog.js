@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import { SketchPicker, CirclePicker } from "react-color";
@@ -19,8 +19,9 @@ const backGroundGradients = [
 
 function ThemePickerDialog({ onClose, theme, open }) {
 	const [displayColorPicker, setDisplayColorPicker] = useState(false);
-	const [pickedColor, setPickedColor] = useState(theme.palette.primary);
-	console.log(pickedColor);
+	const [pickedColor, setPickedColor] = useState(theme.palette.primary.main);
+	const [pickedPaperBgColor, setPickedPaperBgColor] = useState(theme.palette.paperBackground);
+	const [pickedBackground, setPickedBackground] = useState(theme.palette.background);
 
 	const useStyles = makeStyles({
 		dialog: {
@@ -46,13 +47,6 @@ function ThemePickerDialog({ onClose, theme, open }) {
 				marginLeft: "5vw",
 			},
 		},
-		backgroundPicker: {
-			// "& > span > div > span > div": {
-			// 	boxShadow: "none !important",
-			// 	background:
-			// 		"linear-gradient(90deg, rgba(24,126,255,1) 0%, rgba(99,212,244,1) 100%) !important",
-			// },
-		},
 	});
 
 	const classes = useStyles();
@@ -66,8 +60,24 @@ function ThemePickerDialog({ onClose, theme, open }) {
 	};
 
 	const handleChangeComplete = (color) => {
-		console.log(color);
 		setPickedColor(() => color.hex);
+	};
+
+	const handlePaperBgChangeComplete = (color) => {
+		setPickedPaperBgColor(() => color.hex);
+	};
+
+	const handleBackgroundChangeComplete = (_, event) => {
+		event.target.classList.toggle("background-picker-clicked");
+		event.target
+			.closest(".circle-picker")
+			.querySelectorAll("div > span > div > span > div")
+			.forEach((circle) => {
+				if (circle !== event.target) {
+					circle.classList.remove("background-picker-clicked");
+				}
+			});
+		setPickedBackground(() => event.target.style.background);
 	};
 
 	const handleSaveChanges = () => {
@@ -82,9 +92,8 @@ function ThemePickerDialog({ onClose, theme, open }) {
 				doneGreen: {
 					main: "green",
 				},
-				paperBackground: "#f6f5d7",
-				background:
-					"linear-gradient(90.5deg, rgba(252, 176, 69, 1) 0%, rgba(243, 244, 99, 1) 100%)",
+				paperBackground: pickedPaperBgColor,
+				background: pickedBackground,
 			},
 		});
 		onClose(newTheme);
@@ -107,7 +116,10 @@ function ThemePickerDialog({ onClose, theme, open }) {
 			</div>
 			<div className={classes.flex}>
 				<DialogContentText>Pick the game's panel color:</DialogContentText>
-				<CirclePicker colors={["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5"]} />
+				<CirclePicker
+					colors={["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5"]}
+					onChangeComplete={handlePaperBgChangeComplete}
+				/>
 			</div>
 			<div
 				ref={(el) => {
@@ -119,7 +131,11 @@ function ThemePickerDialog({ onClose, theme, open }) {
 				className={classes.flex}
 			>
 				<DialogContentText>Pick a background:</DialogContentText>
-				<CirclePicker className={classes.backgroundPicker} colors={backGroundGradients} />
+				<CirclePicker
+					className={classes.backgroundPicker}
+					colors={backGroundGradients}
+					onChangeComplete={handleBackgroundChangeComplete}
+				/>
 			</div>
 
 			<DialogActions>
