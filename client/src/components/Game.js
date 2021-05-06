@@ -63,6 +63,7 @@ function Game({ playerName, match }) {
 	const playerNameParam = match.params.name;
 
 	const [questionsAskedTotal, setQuestionsAskedTotal] = useState([]);
+	const [wasAnswerCorrect, setWasAnswerCorrect] = useState(null)
 
 	const [{ data, loading, error }, refetch] = useAxios(
 		{
@@ -134,10 +135,16 @@ function Game({ playerName, match }) {
 						setCorrectQuestionsAnswered={setCorrectQuestionsAnswered}
 						questionsAskedTotal={questionsAskedTotal}
 						setQuestionsAskedTotal={setQuestionsAskedTotal}
+						setWasAnswerCorrect={setWasAnswerCorrect}
 					/>
 				)}
 				{currentlyDisplayed === "rating" && (
-					<Rating question={data} setCurrentlyDisplayed={setCurrentlyDisplayed} refetch={refetch} />
+					<Rating
+						question={data} 
+						setCurrentlyDisplayed={setCurrentlyDisplayed} 
+						refetch={refetch} 
+						wasAnswerCorrect={wasAnswerCorrect}
+					/>
 				)}
 				{currentlyDisplayed === "game_over" && (
 					<GameOver
