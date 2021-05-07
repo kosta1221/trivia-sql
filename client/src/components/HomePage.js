@@ -5,12 +5,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "./useRouter";
 
 import { Link } from "react-router-dom";
-import AvatarGrid from "./AvatarGrid";
+import Avatar from "@material-ui/core/Avatar";
+
 import ThemePickerDialog from "./ThemePickerDialog";
 
 import { axiosInterceptorInstance } from "../interceptors/axiosInterceptors";
 import { URL } from "../utils";
 import { makeUseAxios } from "axios-hooks";
+import AvatarPickerDialog from "./AvatarPickerDialog";
 
 const useAxiosInterceptor = makeUseAxios({ axios: axiosInterceptorInstance });
 
@@ -23,11 +25,16 @@ const useStyles = makeStyles((theme) => ({
 	buttonsFlex: {
 		display: `flex`,
 		justifyContent: `center`,
+		alignItems: "center",
 		flexDirection: "column",
 		width: "50vmax",
 	},
 	mainButton: {
 		margin: "1vh",
+		width: "100%",
+	},
+	leaderboardsButton: {
+		margin: "1vh 1vh 1vh 0",
 		width: "100%",
 	},
 	textField: {
@@ -40,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 	linkWithButton: {
 		textDecoration: "none",
+		width: "100%",
+	},
+	playerAvatar: {
+		margin: theme.spacing(1),
+		border: `2px ${theme.palette.primary.main} solid`,
+		"&:hover": {
+			cursor: "pointer",
+		},
 	},
 }));
 
@@ -60,6 +75,7 @@ function HomePage({
 	const router = useRouter();
 
 	const [themePickerDialogOpen, setThemePickerDialogOpen] = useState(false);
+	const [avatarPickerDialogOpen, setAvatarPickerDialogOpen] = useState(false);
 
 	const [
 		{ data: playerInfo, error: playerInfoError },
@@ -88,9 +104,17 @@ function HomePage({
 		setThemePickerDialogOpen(true);
 	};
 
+	const handlePlayerAvatarClick = (e) => {
+		setAvatarPickerDialogOpen(true);
+	};
+
 	const onClose = (theme) => {
 		setThemePickerDialogOpen(false);
 		setTheme(theme);
+	};
+
+	const onAvatarPickerClose = () => {
+		setAvatarPickerDialogOpen(false);
 	};
 
 	const handleLogoutClick = async (e) => {
@@ -111,12 +135,17 @@ function HomePage({
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
-			<AvatarGrid
-				avatarId={avatarId}
-				setAvatarId={setAvatarId}
-				playerName={playerName}
-				avatars={avatars}
-			/>
+			{avatarId && (
+				<Avatar
+					value={avatarId}
+					onClick={handlePlayerAvatarClick}
+					className={classes.playerAvatar}
+					alt="player's avatar"
+					src={`${process.env.PUBLIC_URL}${
+						avatars.find((avatar) => avatar.id === avatarId).img_src
+					}`}
+				/>
+			)}
 
 			<Button
 				onClick={handleStartClick}
@@ -127,7 +156,7 @@ function HomePage({
 				Start Game
 			</Button>
 			<Link className={classes.linkWithButton} to="/leaderboards">
-				<Button className={classes.mainButton} variant="contained" color="primary">
+				<Button className={classes.leaderboardsButton} variant="contained" color="primary">
 					Leaderboards
 				</Button>
 			</Link>
@@ -148,6 +177,14 @@ function HomePage({
 				Log Out
 			</Button>
 			<ThemePickerDialog theme={theme} open={themePickerDialogOpen} onClose={onClose} />
+			<AvatarPickerDialog
+				avatarId={avatarId}
+				setAvatarId={setAvatarId}
+				playerName={playerName}
+				avatars={avatars}
+				open={avatarPickerDialogOpen}
+				onClose={onAvatarPickerClose}
+			/>
 		</div>
 	);
 }
