@@ -77,9 +77,6 @@ function LoginPage({
 		const body = {};
 		formData.forEach((value, property) => (body[property] = value));
 
-		setPlayerName(() => body.playerName);
-		setIsPlayer(() => true);
-
 		try {
 			const response = await axios({
 				method: "POST",
@@ -92,6 +89,8 @@ function LoginPage({
 				axiosInterceptorInstance.defaults.headers.common["Authorization"] =
 					"Bearer " + response.data.accessToken;
 				setRefreshToken(() => response.data.refreshToken);
+				setPlayerName(() => body.playerName);
+				setIsPlayer(() => true);
 				router.push("/home");
 			} else {
 				setError(() => ({ isError: true, message: "bad attempt to login" }));
