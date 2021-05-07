@@ -216,7 +216,9 @@ function App() {
 						<Route
 							exact
 							path="/leaderboards"
-							render={(props) => <Leaderboards {...props} avatars={avatars} />}
+							render={(props) => (
+								<Leaderboards {...props} avatars={avatars} playerName={playerName} />
+							)}
 						/>
 					</Switch>
 				</BrowserRouter>

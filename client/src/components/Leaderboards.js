@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Leaderboards({ avatars }) {
+function Leaderboards({ avatars, playerName }) {
 	const classes = useStyles();
 	configure({ axios: axiosInterceptorInstance });
 
@@ -43,7 +43,7 @@ function Leaderboards({ avatars }) {
 	return (
 		<div>
 			<h1>Leaderboards:</h1>
-			{data && <LeaderboardsTable data={data} avatars={avatars} />}
+			{data && <LeaderboardsTable data={data} avatars={avatars} playerName={playerName} />}
 			<Link className={classes.linkWithButton} to="/home">
 				<Button className={classes.button} variant="contained" color="primary">
 					Back to Menu
