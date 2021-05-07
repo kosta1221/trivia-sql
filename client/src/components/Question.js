@@ -105,7 +105,7 @@ function Question({
 
 	return (
 		<div className={classes.question}>
-			<LinearProgressWithLabel value={progress} remainingQuestionTime={remainingQuestionTime} />
+			<LinearProgressWithLabel value={progress} remainingTime={remainingQuestionTime} />
 			{data && <h1 className={classes.questionString}>{data.question_str}</h1>}
 			{data && (
 				<div className={classes.questionOptions}>

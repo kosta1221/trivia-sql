@@ -1,8 +1,9 @@
 import { IconButton } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import StarOutlineIcon from "@material-ui/icons/StarOutline";
 import StarIcon from "@material-ui/icons/Star";
 import Button from "@material-ui/core/Button";
+import LinearProgressWithLabel from "./LinearProgressWithLabel";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -62,10 +63,39 @@ function Rating({
   refetch,
   wasAnswerCorrect,
 }) {
-  console.log(question);
   const classes = useStyles();
 
   const [fullStars, setFullStars] = useState(0);
+  const [remainingRatingTime, setRemainingRatingTime] = useState(5);
+  const [progress, setProgress] = useState(100);
+
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress <= 0 ? 100 : prevProgress - 2
+      );
+    }, 100);
+    
+    return () => {
+      clearInterval(timerRef.current);
+    };
+  }, []);
+  
+  useEffect(() => {
+    setRemainingRatingTime(remainingRatingTime - 0.1);
+    if (progress <= 0) {
+      clearInterval(timerRef.current);
+      console.log("Rating TIME'S UP!!");
+      getNextQuestion();
+    }
+  }, [progress]);
+
+  const getNextQuestion = async () => {
+    await refetch();
+    setCurrentlyDisplayed("question");
+  };
 
   const handleStarHover = (event) => {
     const value = event.target.getAttribute("value");
@@ -116,6 +146,10 @@ function Rating({
 
   return (
     <div className={classes.root}>
+      <LinearProgressWithLabel
+        value={progress}
+        remainingTime={remainingRatingTime}
+      />
       <div className={classes.ratingContainer}>
         <div className={classes.ratingText}>
           <h1>Please rate the previous question</h1>
@@ -123,7 +157,7 @@ function Rating({
         <div className={classes.stars}>{fiveStars}</div>
       </div>
       <div className={classes.prevQuestionContainer}>
-		  {wasAnswerCorrect ?  <h2>Correct!</h2> : <h2>Incorrect!</h2> }
+        {wasAnswerCorrect ? <h2>Correct!</h2> : <h2>Incorrect!</h2>}
         {question && (
           <div className={classes.questionOptions}>
             <div className={classes.questionOptionsInner}>

@@ -4,7 +4,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-function LinearProgressWithLabel({ remainingQuestionTime, ...props }) {
+function LinearProgressWithLabel({ remainingTime, ...props }) {
 	return (
 		<Box display="flex" alignItems="center">
 			<Box width="100%" mr={1}>
@@ -12,7 +12,7 @@ function LinearProgressWithLabel({ remainingQuestionTime, ...props }) {
 			</Box>
 			<Box minWidth={35}>
 				<Typography variant="body2" color="textSecondary">
-					{Math.round(remainingQuestionTime)}
+					{Math.round(remainingTime)}
 				</Typography>
 			</Box>
 		</Box>
