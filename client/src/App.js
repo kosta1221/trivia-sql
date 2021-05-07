@@ -60,6 +60,18 @@ function App() {
 	const [rememberPlayer, setRememberPlayer] = useState(true);
 	const [theme, setTheme] = useState(initialTheme);
 
+	const [{ loading: logoutLoading, error: logoutError }, executeLogout] = useAxios(
+		{
+			method: "POST",
+			url: `${AUTH_URL}/logout`,
+			headers: { "Content-Type": "application/json" },
+			data: {
+				refreshToken: refreshToken && refreshToken.refresh_token,
+			},
+		},
+		{ manual: true }
+	);
+
 	const [
 		{ data: accessTokenFetch, loading: accessTokenLoading, error: accessTokenError },
 		executeAccessTokenFetch,
@@ -69,18 +81,6 @@ function App() {
 			url: `${AUTH_URL}/access-token-generate`,
 			headers: { "Content-Type": "application/json" },
 			data: { refreshToken: refreshToken && refreshToken.refresh_token },
-		},
-		{ manual: true }
-	);
-
-	const [{ loading: logoutLoading, error: logoutError }, executeLogout] = useAxios(
-		{
-			method: "POST",
-			url: `${AUTH_URL}/logout`,
-			headers: { "Content-Type": "application/json" },
-			data: {
-				refreshToken: refreshToken && refreshToken.refresh_token,
-			},
 		},
 		{ manual: true }
 	);
@@ -121,7 +121,6 @@ function App() {
 	useEffect(() => {
 		if (accessTokenFetch) {
 			setPlayerName(() => accessTokenFetch.playerName);
-			setAvatarId(() => accessTokenFetch.avatarId);
 			console.log("setting player to true...");
 			setIsPlayer(() => true);
 		}
@@ -202,6 +201,9 @@ function App() {
 									setRefreshToken={setRefreshToken}
 									setIsPlayer={setIsPlayer}
 									executeLogout={executeLogout}
+									accessTokenLoading={accessTokenLoading}
+									theme={theme}
+									setTheme={setTheme}
 									{...props}
 								/>
 							)}
