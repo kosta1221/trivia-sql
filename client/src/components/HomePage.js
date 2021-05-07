@@ -29,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		width: "50vmax",
 	},
+	avatarFlex: {
+		display: `flex`,
+		justifyContent: `center`,
+		alignItems: "center",
+	},
 	mainButton: {
 		margin: "1vh",
 		width: "100%",
@@ -58,6 +63,10 @@ const useStyles = makeStyles((theme) => ({
 		"&:hover": {
 			cursor: "pointer",
 		},
+	},
+	playerInfo: {
+		margin: "1vmax 0 1vmax 1vmax",
+		textAlign: "left",
 	},
 }));
 
@@ -138,7 +147,7 @@ function HomePage({
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
-			{
+			<div className={classes.avatarFlex}>
 				<Avatar
 					value={avatarId}
 					onClick={handlePlayerAvatarClick}
@@ -149,7 +158,13 @@ function HomePage({
 						`${process.env.PUBLIC_URL}${avatars.find((avatar) => avatar.id === avatarId).img_src}`
 					}
 				/>
-			}
+				<div>
+					<h2 className={classes.playerInfo}>{`Name : ${playerName}`}</h2>
+					<h2 className={classes.playerInfo}>
+						{playerInfo && playerInfo.score ? `High Score: ${playerInfo.score}` : `High Score: 0`}
+					</h2>
+				</div>
+			</div>
 
 			<Button
 				onClick={handleStartClick}
