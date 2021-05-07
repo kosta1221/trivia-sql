@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	mainHeader: {
 		fontSize: "4rem",
-		marginBottom: "10vmax",
+		marginBottom: "1vmax",
 	},
 	linkWithButton: {
 		textDecoration: "none",
@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	playerAvatar: {
 		margin: theme.spacing(1),
+		marginBottom: "2vmax",
+		width: "15vmax",
+		height: "15vmax",
 		border: `2px ${theme.palette.primary.main} solid`,
 		"&:hover": {
 			cursor: "pointer",
@@ -129,23 +132,24 @@ function HomePage({
 	};
 
 	if (playerInfoError) {
-		console.log(playerInfoError.response.data);
+		playerInfoError.response.data && console.log(playerInfoError.response.data);
 	}
 
 	return (
 		<div className={classes.buttonsFlex}>
 			<h1 className={classes.mainHeader}>Countrivia!</h1>
-			{avatarId && (
+			{
 				<Avatar
 					value={avatarId}
 					onClick={handlePlayerAvatarClick}
 					className={classes.playerAvatar}
 					alt="player's avatar"
-					src={`${process.env.PUBLIC_URL}${
-						avatars.find((avatar) => avatar.id === avatarId).img_src
-					}`}
+					src={
+						avatarId &&
+						`${process.env.PUBLIC_URL}${avatars.find((avatar) => avatar.id === avatarId).img_src}`
+					}
 				/>
-			)}
+			}
 
 			<Button
 				onClick={handleStartClick}
