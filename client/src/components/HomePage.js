@@ -92,11 +92,14 @@ function HomePage({
 	const [
 		{ data: playerInfo, error: playerInfoError },
 		executePlayerInfoFetch,
-	] = useAxiosInterceptor({
-		method: "GET",
-		url: `${URL}/player-info/${playerName}`,
-		headers: { "Content-Type": "application/json" },
-	});
+	] = useAxiosInterceptor(
+		{
+			method: "GET",
+			url: `${URL}/player-info/${playerName}`,
+			headers: { "Content-Type": "application/json" },
+		},
+		{ useCache: false }
+	);
 
 	useEffect(() => {
 		if (playerInfo && !accessTokenLoading) {

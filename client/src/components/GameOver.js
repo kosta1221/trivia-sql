@@ -43,6 +43,8 @@ function GameOver({
 	const classes = useStyles();
 
 	const [leaderboardPlace, setLeaderboardPlace] = useState(0);
+	const [shouldSavePlayer, setShouldSavePlayer] = useState(true);
+	console.log(leaderboardPlace);
 
 	useEffect(() => {
 		setCorrectQuestionsAnswered(0);
@@ -51,11 +53,19 @@ function GameOver({
 		checkLeadeboards()
 			.then((players) => {
 				players.every((playerOnLeaderboards, i) => {
+					if (playerNameParam === playerOnLeaderboards.id && score <= playerOnLeaderboards.score) {
+						setShouldSavePlayer(false);
+						setLeaderboardPlace(i + 1);
+						return false;
+					}
 					if (score > playerOnLeaderboards.score) {
 						setLeaderboardPlace(i + 1);
 						return false;
 					}
-					setLeaderboardPlace(i + 1);
+
+					if (i === players.length - 1) {
+						setLeaderboardPlace(i + 1);
+					}
 					return true;
 				});
 			})
@@ -63,24 +73,28 @@ function GameOver({
 	}, []);
 
 	const handleMainMenu = async (event) => {
-		const playerToSave = {
-			name: playerNameParam,
-			score: score,
-		};
+		if (shouldSavePlayer) {
+			const playerToSave = {
+				name: playerNameParam,
+				score: score,
+			};
 
-		savePlayer(playerToSave);
+			savePlayer(playerToSave);
+		}
 	};
 
 	const handlePlayAgain = async (event) => {
 		setLives(3);
 		setScore(0);
 
-		const playerToSave = {
-			name: playerNameParam,
-			score: score,
-		};
+		if (shouldSavePlayer) {
+			const playerToSave = {
+				name: playerNameParam,
+				score: score,
+			};
 
-		savePlayer(playerToSave);
+			savePlayer(playerToSave);
+		}
 
 		try {
 			await refetch();
@@ -93,6 +107,7 @@ function GameOver({
 	return (
 		<div className={classes.root}>
 			<h1 className={classes.gameOver}>GAME OVER!</h1>
+			<h1 className={classes.gameOver}>{`Better luck next time, ${playerNameParam}!`}</h1>
 			<h1 className={classes.gameOver}>{`Your leaderboard position: ${leaderboardPlace}`}</h1>
 			<div>
 				<Button
