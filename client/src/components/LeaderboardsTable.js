@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	chosenRow: {
-		backgroundColor: "#add8e6",
+		backgroundColor: "#add8e6 !important",
 	},
 }));
 

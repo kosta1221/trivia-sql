@@ -16,7 +16,7 @@ import { axiosInterceptorInstance } from "./interceptors/axiosInterceptors";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
 
-const initialTheme = createMuiTheme({
+const defaultTheme = {
 	palette: {
 		primary: {
 			main: "#562500",
@@ -30,7 +30,9 @@ const initialTheme = createMuiTheme({
 		paperBackground: "#f6f5d7",
 		background: "linear-gradient(90.5deg, rgba(252, 176, 69, 1) 0%, rgba(243, 244, 99, 1) 100%)",
 	},
-});
+};
+
+const initialTheme = createMuiTheme(JSON.parse(localStorage.getItem("theme")) || defaultTheme);
 
 const handleShutdown = (e) => {
 	try {

@@ -123,6 +123,7 @@ function HomePage({
 	const onClose = (theme) => {
 		setThemePickerDialogOpen(false);
 		setTheme(theme);
+		localStorage.setItem("theme", JSON.stringify(theme));
 	};
 
 	const onAvatarPickerClose = () => {

@@ -17,6 +17,8 @@ const backGroundGradients = [
 	"linear-gradient(90.5deg, rgba(252, 176, 69, 1) 0%, rgba(243, 244, 99, 1) 100%)",
 ];
 
+const paperBackgroundColors = ["#c1e1ec", "#f6f5d7", "#d1c3e6", "#ffaaa3", "#d3d3d3"];
+
 function ThemePickerDialog({ onClose, theme, open }) {
 	const [displayColorPicker, setDisplayColorPicker] = useState(false);
 	const [pickedColor, setPickedColor] = useState(theme.palette.primary.main);
@@ -117,7 +119,7 @@ function ThemePickerDialog({ onClose, theme, open }) {
 			<div className={classes.flex}>
 				<DialogContentText>Pick the game's panel color:</DialogContentText>
 				<CirclePicker
-					colors={["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5"]}
+					colors={paperBackgroundColors}
 					onChangeComplete={handlePaperBgChangeComplete}
 				/>
 			</div>
