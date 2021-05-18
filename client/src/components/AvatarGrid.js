@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
 		display: "grid",
 		placeItems: "center",
 		gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
+		alignSelf: "stretch",
 	},
 	avatar: {
 		margin: theme.spacing(1),
@@ -19,18 +20,19 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	chosen: {
-		border: "2px blue solid",
+		border: `2px ${theme.palette.primary.main} solid`,
 	},
 }));
 
-function AvatarGrid({ avatars, playerName, avatarId, setAvatarId }) {
+function AvatarGrid({ avatars, playerName, avatarId, setAvatarId, handleAvatarPickerDialogClose }) {
 	const classes = useStyles();
 
 	const handleAvatarClick = async (e) => {
 		const chosenAvatarId = +e.target.parentNode.getAttribute("value");
 		setAvatarId(() => chosenAvatarId);
 		console.log("chosen avatar id: ", chosenAvatarId);
-		await saveAvatarOfPlayer({ name: playerName, avatar_id: chosenAvatarId });
+		handleAvatarPickerDialogClose();
+		saveAvatarOfPlayer({ name: playerName, avatar_id: chosenAvatarId });
 	};
 
 	return (

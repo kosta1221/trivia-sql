@@ -22,15 +22,6 @@ app.use(express.static("./client/build"));
 app.use("/api", router);
 app.use("/auth", authRouter);
 
-const {
-	Country,
-	CrimeIndex,
-	Capital,
-	CostOfLivingIndex,
-	PopulationDensity,
-	QualityOfLifeIndex,
-} = require("./models");
-
 const errorHandler = (error, req, res, next) => {
 	console.error("error name: ", error.name);
 	console.error(error.message);
@@ -43,5 +34,11 @@ const errorHandler = (error, req, res, next) => {
 };
 
 app.use(errorHandler);
+
+// catch 404 and redirect to home
+app.use((req, res) => {
+	console.log(`redirecting request to ${req.path} to /...`);
+	res.redirect("/");
+});
 
 module.exports = app;

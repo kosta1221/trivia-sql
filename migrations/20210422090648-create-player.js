@@ -5,7 +5,7 @@ module.exports = {
       id: {
         primaryKey: true,
         allowNull: false,  
-        type: Sequelize.STRING
+        type: Sequelize.STRING.BINARY
       },
       score: {
         type: Sequelize.INTEGER

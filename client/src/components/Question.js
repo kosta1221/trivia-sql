@@ -42,6 +42,7 @@ function Question({
 	setCorrectQuestionsAnswered,
 	questionsAskedTotal,
 	setQuestionsAskedTotal,
+	setWasAnswerCorrect
 }) {
 	const classes = useStyles();
 
@@ -89,7 +90,9 @@ function Question({
 
 		if (!isUserAnswerCorrect) {
 			setLives(lives - 1);
+			setWasAnswerCorrect(false);
 		} else {
+			setWasAnswerCorrect(true);
 			const timeItTookToAnswer = totalQuestionTime - remainingQuestionTime;
 			console.log(remainingQuestionTime);
 			console.log(timeItTookToAnswer);
@@ -102,7 +105,7 @@ function Question({
 
 	return (
 		<div className={classes.question}>
-			<LinearProgressWithLabel value={progress} remainingQuestionTime={remainingQuestionTime} />
+			<LinearProgressWithLabel value={progress} remainingTime={remainingQuestionTime} />
 			{data && <h1 className={classes.questionString}>{data.question_str}</h1>}
 			{data && (
 				<div className={classes.questionOptions}>

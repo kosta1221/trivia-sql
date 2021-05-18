@@ -16,7 +16,7 @@ import { axiosInterceptorInstance } from "./interceptors/axiosInterceptors";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
 
-const initialTheme = createMuiTheme({
+const defaultTheme = {
 	palette: {
 		primary: {
 			main: "#562500",
@@ -30,7 +30,9 @@ const initialTheme = createMuiTheme({
 		paperBackground: "#f6f5d7",
 		background: "linear-gradient(90.5deg, rgba(252, 176, 69, 1) 0%, rgba(243, 244, 99, 1) 100%)",
 	},
-});
+};
+
+const initialTheme = createMuiTheme(JSON.parse(localStorage.getItem("theme")) || defaultTheme);
 
 const handleShutdown = (e) => {
 	try {
@@ -60,6 +62,18 @@ function App() {
 	const [rememberPlayer, setRememberPlayer] = useState(true);
 	const [theme, setTheme] = useState(initialTheme);
 
+	const [{ loading: logoutLoading, error: logoutError }, executeLogout] = useAxios(
+		{
+			method: "POST",
+			url: `${AUTH_URL}/logout`,
+			headers: { "Content-Type": "application/json" },
+			data: {
+				refreshToken: refreshToken && refreshToken.refresh_token,
+			},
+		},
+		{ manual: true }
+	);
+
 	const [
 		{ data: accessTokenFetch, loading: accessTokenLoading, error: accessTokenError },
 		executeAccessTokenFetch,
@@ -69,18 +83,6 @@ function App() {
 			url: `${AUTH_URL}/access-token-generate`,
 			headers: { "Content-Type": "application/json" },
 			data: { refreshToken: refreshToken && refreshToken.refresh_token },
-		},
-		{ manual: true }
-	);
-
-	const [{ loading: logoutLoading, error: logoutError }, executeLogout] = useAxios(
-		{
-			method: "POST",
-			url: `${AUTH_URL}/logout`,
-			headers: { "Content-Type": "application/json" },
-			data: {
-				refreshToken: refreshToken && refreshToken.refresh_token,
-			},
 		},
 		{ manual: true }
 	);
@@ -121,7 +123,6 @@ function App() {
 	useEffect(() => {
 		if (accessTokenFetch) {
 			setPlayerName(() => accessTokenFetch.playerName);
-			setAvatarId(() => accessTokenFetch.avatarId);
 			console.log("setting player to true...");
 			setIsPlayer(() => true);
 		}
@@ -202,6 +203,9 @@ function App() {
 									setRefreshToken={setRefreshToken}
 									setIsPlayer={setIsPlayer}
 									executeLogout={executeLogout}
+									accessTokenLoading={accessTokenLoading}
+									theme={theme}
+									setTheme={setTheme}
 									{...props}
 								/>
 							)}
@@ -214,7 +218,9 @@ function App() {
 						<Route
 							exact
 							path="/leaderboards"
-							render={(props) => <Leaderboards {...props} avatars={avatars} />}
+							render={(props) => (
+								<Leaderboards {...props} avatars={avatars} playerName={playerName} />
+							)}
 						/>
 					</Switch>
 				</BrowserRouter>

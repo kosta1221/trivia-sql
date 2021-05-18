@@ -19,14 +19,6 @@ const StyledTableCell = withStyles((theme) => ({
 	},
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		"&:nth-of-type(odd)": {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
-
 const useStyles = makeStyles((theme) => ({
 	table: {
 		minWidth: 700,
@@ -36,15 +28,28 @@ const useStyles = makeStyles((theme) => ({
 		height: "70vh",
 		overflowY: "scroll",
 	},
+	avatar: {
+		border: `2px ${theme.palette.primary.main} solid`,
+	},
+	chosen: {
+		border: `2px blue solid`,
+	},
+	tableRow: {
+		"&:nth-of-type(odd)": {
+			backgroundColor: theme.palette.action.hover,
+		},
+	},
+	chosenRow: {
+		backgroundColor: "#add8e6 !important",
+	},
 }));
 
-export default function LeaderboardsTable({ data, avatars }) {
+export default function LeaderboardsTable({ data, avatars, playerName }) {
 	const classes = useStyles();
-	console.log(avatars);
 
 	return (
 		<TableContainer className={classes.leaderboardsTable} component={Paper}>
-			<Table className={classes.table} aria-label="customized table">
+			<Table className={classes.table} aria-label="leaderboards table">
 				<TableHead>
 					<TableRow>
 						<StyledTableCell align="center">Place</StyledTableCell>
@@ -55,7 +60,14 @@ export default function LeaderboardsTable({ data, avatars }) {
 				</TableHead>
 				<TableBody>
 					{data.map((row, i) => (
-						<StyledTableRow key={`row-${i}`}>
+						<TableRow
+							className={
+								playerName === row.id
+									? `${classes.tableRow} ${classes.chosenRow}`
+									: classes.tableRow
+							}
+							key={`row-${i}`}
+						>
 							<StyledTableCell align="center">{i + 1}</StyledTableCell>
 							<StyledTableCell align="center">{row.id}</StyledTableCell>
 							<StyledTableCell align="center">{row.score}</StyledTableCell>
@@ -63,7 +75,9 @@ export default function LeaderboardsTable({ data, avatars }) {
 								{
 									<Avatar
 										style={{ margin: "auto" }}
-										className={classes.avatar}
+										className={
+											playerName === row.id ? `${classes.avatar} ${classes.chosen}` : classes.avatar
+										}
 										alt="Avatar"
 										src={
 											avatars[row.avatar_id - 1] &&
@@ -72,7 +86,7 @@ export default function LeaderboardsTable({ data, avatars }) {
 									/>
 								}
 							</StyledTableCell>
-						</StyledTableRow>
+						</TableRow>
 					))}
 				</TableBody>
 			</Table>

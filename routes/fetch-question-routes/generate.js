@@ -277,6 +277,13 @@ const handleType2Template = async (relevantModel, relevantColumn, relevantStat, 
 
 	// console.log("attempts: ", attempts);
 
+	relevantRowsMini.forEach((rowMini, i) => {
+		if ( Number(rowMini[relevantStat]) !== NaN ) {
+	  relevantRowsMini[i][relevantStat] = Number(rowMini[relevantStat]).toLocaleString('en-US');
+	}
+	return;
+	})
+
 	const answer = relevantRowsMini[0][relevantStat];
 	const shuffledOptions = shuffleArray(relevantRowsMini);
 
