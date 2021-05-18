@@ -19,7 +19,7 @@ import SignUpPage from "./components/SignUpPage";
 const defaultTheme = {
 	palette: {
 		primary: {
-			main: "#562500",
+			main: "#4a4a4a",
 		},
 		secondary: {
 			main: "#d32f2f",
@@ -27,8 +27,8 @@ const defaultTheme = {
 		doneGreen: {
 			main: "green",
 		},
-		paperBackground: "#f6f5d7",
-		background: "linear-gradient(90.5deg, rgba(252, 176, 69, 1) 0%, rgba(243, 244, 99, 1) 100%)",
+		paperBackground: "#c1e1ec",
+		background: "linear-gradient(90deg, rgb(24, 126, 255) 0%, rgb(99, 212, 244) 100%)",
 	},
 };
 
@@ -43,14 +43,12 @@ const handleShutdown = (e) => {
 };
 
 function App() {
-	const [
-		{ data: avatars, loading: avatarsLoading, error: avatarsError },
-		refetchAvatars,
-	] = useAxios({
-		method: "GET",
-		url: `${URL}/get-avatars`,
-		headers: { "Content-Type": "application/json" },
-	});
+	const [{ data: avatars, loading: avatarsLoading, error: avatarsError }, refetchAvatars] =
+		useAxios({
+			method: "GET",
+			url: `${URL}/get-avatars`,
+			headers: { "Content-Type": "application/json" },
+		});
 
 	const [fetchRetries, setFetchRetries] = useState(0);
 	const [refreshToken, setRefreshToken] = useState(

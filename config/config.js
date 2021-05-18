@@ -2,7 +2,6 @@ require("dotenv").config();
 const DB_PASSWORD_CLOUD = process.env.DB_PASSWORD_CLOUD;
 const DB_HOST = process.env.DB_HOST;
 const INSTANCE_CONNECTION_NAME = process.env.INSTANCE_CONNECTION_NAME;
-console.log(INSTANCE_CONNECTION_NAME);
 console.log("host is: ", DB_HOST);
 
 module.exports = {
